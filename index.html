@@ -1,0 +1,2785 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ese fistro de enzima diodenar</title>
+  <!-- Tailwind CSS para maquetación panorámica responsiva -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tipografías editoriales y de cómic científico -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       PALETA EDITORIAL CLARA Y ESTÉTICA DE INFOGRAFÍA CIENTÍFICA
+       ========================================================================== */
+    :root {
+      --bg-canvas: #FAF8F5;
+      --ink-border: #1E293B;
+      --vascular-red: #E11D48;
+      --no-blue: #0284C7;
+      --cgmp-green: #059669;
+      --enzyme-amber: #D97706;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-canvas);
+      color: var(--ink-border);
+      overflow-x: hidden;
+      background-image: radial-gradient(#CBD5E1 1.15px, transparent 1.15px);
+      background-size: 20px 20px;
+    }
+
+    h1, h2, h3, h4, .font-comic {
+      font-family: 'Fredoka', cursive, sans-serif;
+      letter-spacing: 0.01em;
+    }
+
+    /* Tarjetas de infografía con bordes nítidos #1E293B de 2.5px (sin sombra salvo si son clickables) */
+    .info-card {
+      background: #FFFFFF;
+      border: 2.5px solid #1E293B;
+      border-radius: 1.15rem;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .info-card-clickable {
+      box-shadow: 5px 5px 0px #1E293B;
+    }
+
+    .info-card-clickable:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 6px 6px 0px #1E293B;
+    }
+
+    .info-card-clickable:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #1E293B;
+    }
+
+    .info-btn {
+      border: 2px solid #1E293B;
+      border-radius: 0.75rem;
+      box-shadow: 3px 3px 0px #1E293B;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .info-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #1E293B;
+    }
+
+    .info-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #1E293B;
+    }
+
+    /* Etiqueta bioquímica compacta */
+    .mol-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight: 700;
+      font-size: 0.76rem;
+      padding: 0.12rem 0.45rem;
+      border-radius: 0.4rem;
+      border: 1.5px solid #1E293B;
+      background: #F8FAFC;
+      color: #0F172A;
+      white-space: nowrap;
+    }
+
+    /* Acordeón fluido de los 3 epígrafes de la Parte 1 */
+    .epigrafe-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.36s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .epigrafe-item.open .epigrafe-body {
+      grid-template-rows: 1fr;
+    }
+
+    .epigrafe-inner {
+      overflow: hidden;
+    }
+
+    .epigrafe-arrow {
+      transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .epigrafe-item.open .epigrafe-arrow {
+      transform: rotate(180deg);
+    }
+
+    /* ==========================================================================
+       ANIMACIONES DE LOS PERSONAJES SVG DE LA INFOGRAFÍA
+       ========================================================================== */
+    /* Eje de rotación del pene en la base (Parte 1 y Parte 2) */
+    #penis-shaft-pivot,
+    #sec2-shaft-pivot {
+      transition: transform 0.72s cubic-bezier(0.34, 1.45, 0.64, 1);
+    }
+
+    /* Engrosamiento y llenado progresivo del cuerpo cavernoso */
+    #penis-shaft-engorge {
+      transform-origin: 145px 125px;
+      transition: transform 0.65s cubic-bezier(0.34, 1.45, 0.64, 1);
+    }
+
+    #sec2-shaft-engorge {
+      transform-origin: 279px 125px;
+      transition: transform 0.65s cubic-bezier(0.34, 1.45, 0.64, 1);
+    }
+
+    /* Latido energético en erección completa */
+    @keyframes erectPulse {
+      0%, 100% { filter: drop-shadow(0 0 0px rgba(225, 29, 72, 0)); }
+      50% { filter: drop-shadow(0 0 8px rgba(225, 29, 72, 0.38)); }
+    }
+
+    .erect-glow {
+      animation: erectPulse 1.2s ease-in-out infinite;
+    }
+
+    /* Partículas de NO• y GMPc ascendiendo por los cuerpos cavernosos */
+    @keyframes riseBubble {
+      0% { transform: translateY(0px) scale(0.85); opacity: 0.25; }
+      50% { transform: translateY(-12px) scale(1.15); opacity: 1; }
+      100% { transform: translateY(-24px) scale(0.85); opacity: 0.2; }
+    }
+
+    .bio-spark {
+      animation: riseBubble 1.7s ease-in-out infinite;
+    }
+
+    /* Transiciones suaves en el diagrama PDE5 de la Parte 2 */
+    #pde5-cgmp-node {
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    #pde5-pacman-body,
+    #pde5-cgmp-circle,
+    #pde5-5gmp-box {
+      transition: fill 0.3s ease;
+    }
+
+    /* Baile continuo del pene feliz (Parte 4) */
+    @keyframes happyDance {
+      0%, 100% { transform: translateY(0px) rotate(-4deg); }
+      25% { transform: translateY(-8px) rotate(0deg); }
+      50% { transform: translateY(0px) rotate(4deg); }
+      75% { transform: translateY(-8px) rotate(0deg); }
+    }
+
+    #happy-character-group {
+      transform-origin: 160px 255px;
+      animation: happyDance 1.6s ease-in-out infinite;
+    }
+
+    @keyframes armWaveL {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(-25deg); }
+    }
+
+    @keyframes armWaveR {
+      0%, 100% { transform: rotate(0deg); }
+      50% { transform: rotate(25deg); }
+    }
+
+    #happy-arm-l {
+      transform-origin: 118px 168px;
+      animation: armWaveL 0.8s ease-in-out infinite;
+    }
+
+    #happy-arm-r {
+      transform-origin: 202px 168px;
+      animation: armWaveR 0.8s ease-in-out infinite;
+    }
+
+    @keyframes noteFloat {
+      0%, 100% { transform: translateY(0px) rotate(-6deg); }
+      50% { transform: translateY(-7px) rotate(8deg); }
+    }
+
+    .music-note-float {
+      animation: noteFloat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes partyJump {
+      0% { transform: scale(1) translateY(0); }
+      30% { transform: scale(1.12, 0.88) translateY(8px); }
+      60% { transform: scale(0.94, 1.1) translateY(-22px); }
+      100% { transform: scale(1) translateY(0); }
+    }
+
+    .do-party {
+      animation: partyJump 0.65s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes confettiBurst {
+      0% { opacity: 1; transform: translate(0, 0) scale(0.6) rotate(0deg); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(1.2) rotate(260deg); }
+    }
+
+    .confetti-bit {
+      animation: confettiBurst 0.9s ease-out forwards;
+    }
+
+    /* Flujo animado en flechas SVG */
+    @keyframes dashFlow {
+      to { stroke-dashoffset: -24; }
+    }
+
+    .flow-line {
+      stroke-dasharray: 6 6;
+      animation: dashFlow 1.1s linear infinite;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-rose-200 selection:text-slate-900">
+
+  <!-- ==========================================================================
+       CONTENEDOR PANORÁMICO PRINCIPAL (ANCHURA COMPLETA PARA INFOGRAFÍA)
+       ========================================================================== -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 pt-5 sm:pt-8 pb-60 sm:pb-64 space-y-10 sm:space-y-14">
+
+    <!-- ========================================================================
+         CABECERA DE INFOGRAFÍA (DOS BLOQUES VERTICALES EN MODO ANCHO Y ESTRECHO)
+         ======================================================================== -->
+    <section class="info-card p-4 sm:p-6 bg-gradient-to-r from-rose-50 via-white to-sky-50 flex flex-col items-center text-center gap-4">
+      <div class="space-y-1.5 text-center">
+        <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-slate-800 text-amber-300 font-bold text-[11px] tracking-wide">
+          <span>¡Este póster interactivo es la polla!</span>
+        </div>
+        <h1 class="text-2xl sm:text-4xl font-bold text-slate-900 leading-tight">
+          El papel de las <span class="text-[#E11D48]">enzimas</span> en la <span class="text-[#E11D48]">erección</span>
+        </h1>
+      </div>
+
+      <!-- Esquema resumen en píldoras horizontales en una segunda línea -->
+      <div class="flex flex-wrap items-center justify-center gap-1.5 bg-white p-3 rounded-xl border-2 border-slate-800">
+        <span class="mol-pill bg-violet-100">NANC / ACh</span>
+        <span class="font-bold text-slate-500">→</span>
+        <span class="mol-pill bg-sky-100 text-sky-900">nNOS / eNOS</span>
+        <span class="font-bold text-slate-500">→</span>
+        <span class="mol-pill bg-cyan-100 text-cyan-950">NO•</span>
+        <span class="font-bold text-slate-500">→</span>
+        <span class="mol-pill bg-emerald-100 text-emerald-950">sGC (GTP→GMPc)</span>
+        <span class="font-bold text-slate-500">⊣</span>
+        <span class="mol-pill bg-amber-100 text-amber-950">PDE5 / ROCK</span>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         PARTE 1 — CASCADA ENZIMÁTICA DE LA ERECCIÓN
+         ======================================================================== -->
+    <section id="sec-ereccion" class="scroll-mt-8 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <!-- Cartel con forma de pene y dos testículos -->
+          <svg viewBox="0 0 138 48" class="h-11 w-auto shrink-0 select-none" role="img" aria-label="Parte 1">
+            <circle cx="20" cy="16" r="12.5" fill="#E11D48" stroke="#1E293B" stroke-width="2.5" />
+            <circle cx="20" cy="32" r="12.5" fill="#E11D48" stroke="#1E293B" stroke-width="2.5" />
+            <path d="M 22 12 L 106 12 L 106 36 L 22 36 Z" fill="#E11D48" stroke="#1E293B" stroke-width="2.5" stroke-linejoin="round" />
+            <rect x="17" y="13.5" width="15" height="21" rx="6" fill="#E11D48" />
+            <path d="M 105 10 C 124 10, 134 17, 134 24 C 134 31, 124 38, 105 38 Z" fill="#E11D48" stroke="#1E293B" stroke-width="2.5" stroke-linejoin="round" />
+            <text x="64" y="28.5" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12.5" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">
+              PARTE 1
+            </text>
+          </svg>
+          <h2 class="text-xl sm:text-3xl font-bold text-slate-900">
+            Más duro que los pies de cristo
+          </h2>
+        </div>
+      </div>
+
+      <!-- GRID HORIZONTAL EN PARALELO CON ALTURA SINCRONIZADA (items-stretch) -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+
+        <!-- COLUMNA IZQUIERDA (5 cols): PENE COLGANDO CON TESTÍCULOS Y ROTACIÓN EN LA BASE -->
+        <div class="md:col-span-5 h-full info-card p-4 bg-gradient-to-b from-sky-50 via-white to-rose-50 flex flex-col justify-between items-center">
+
+          <!-- Botón situado en el interior del recuadro del pene, en la parte superior -->
+          <div class="w-full flex justify-center pb-2">
+            <button id="btn-reset-erection" type="button" class="info-btn px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-900 font-bold text-xs flex items-center gap-1.5">
+              <span>Ponerla blandita</span>
+            </button>
+          </div>
+
+          <!-- Lienzo SVG del pene colgando con testículos anclados -->
+          <div class="flex-1 w-full flex items-center justify-center">
+            <div class="w-full max-w-[265px] mx-auto">
+              <svg
+                id="svg-erection-stage"
+                viewBox="68 -16 288 346"
+                class="w-full h-auto overflow-visible select-none"
+                role="img"
+                aria-label="Diagrama SVG interactivo del pene colgando con testículos y su elevación progresiva"
+              >
+                <defs>
+                  <linearGradient id="gradFlaccid" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#FBCFE8" />
+                    <stop offset="50%" stop-color="#F9A8D4" />
+                    <stop offset="100%" stop-color="#F472B6" />
+                  </linearGradient>
+                  <linearGradient id="gradErect" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#FDA4AF" />
+                    <stop offset="50%" stop-color="#FB7185" />
+                    <stop offset="100%" stop-color="#E11D48" />
+                  </linearGradient>
+                </defs>
+
+                <!-- Arco guía de elevación desde 0° hasta -128° -->
+                <path
+                  d="M 145 315 A 190 190 0 0 0 295 10"
+                  fill="none"
+                  stroke="#94A3B8"
+                  stroke-width="2"
+                  stroke-dasharray="5 5"
+                />
+                <text x="282" y="12" font-family="Inter, sans-serif" font-size="10.5" font-weight="800" fill="#059669">
+                  ↑ GMPc MAX
+                </text>
+
+                <!-- TESTÍCULO IZQUIERDO (Fijo en la base) -->
+                <g id="testicle-left">
+                  <ellipse cx="115" cy="126" rx="25" ry="33" fill="#F9A8D4" stroke="#1E293B" stroke-width="3.2" />
+                  <path d="M 103 114 Q 99 128 105 142" fill="none" stroke="#DB2777" stroke-width="2" stroke-linecap="round" />
+                </g>
+
+                <!-- TESTÍCULO DERECHO (Fijo en la base) -->
+                <g id="testicle-right">
+                  <ellipse cx="175" cy="126" rx="25" ry="33" fill="#F9A8D4" stroke="#1E293B" stroke-width="3.2" />
+                  <path d="M 187 114 Q 191 128 185 142" fill="none" stroke="#DB2777" stroke-width="2" stroke-linecap="round" />
+                </g>
+
+                <!-- ==============================================================
+                     TRONCO DEL PENE QUE ROTA EXACTAMENTE EN LA BASE (145, 125)
+                     ============================================================== -->
+                <g id="penis-shaft-pivot" transform="rotate(0, 145, 125)">
+                  <g id="penis-shaft-engorge" transform="scale(1, 1)">
+                    <!-- Bulbo basal redondeado centrado en (145, 125) -->
+                    <circle cx="145" cy="125" r="29" fill="url(#gradFlaccid)" stroke="#1E293B" stroke-width="3.4" id="penis-root-bulb" />
+
+                    <!-- Cuerpo cavernoso principal (cuelga de arriba a abajo) -->
+                    <path
+                      id="penis-body-path"
+                      d="M 117 125 L 173 125 L 176 262 C 176 284, 114 284, 114 262 Z"
+                      fill="url(#gradFlaccid)"
+                      stroke="#1E293B"
+                      stroke-width="3.4"
+                      stroke-linejoin="round"
+                    />
+                    <!-- Tapar costura superior del bulbo dentro del tronco -->
+                    <rect x="119" y="114" width="52" height="24" rx="10" fill="url(#gradFlaccid)" id="penis-seam-cover" />
+
+                    <!-- Cuerpos cavernosos internos (se llenan de sangre roja al avanzar) -->
+                    <rect id="cavernosa-l" x="126" y="128" width="12" height="122" rx="6" fill="#E11D48" opacity="0.22" />
+                    <rect id="cavernosa-r" x="152" y="128" width="12" height="122" rx="6" fill="#E11D48" opacity="0.22" />
+
+                    <!-- Arterias helicinas internas (se dilatan progresivamente) -->
+                    <path id="helicine-l" d="M 132 132 L 132 245" stroke="#9F1239" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+                    <path id="helicine-r" d="M 158 132 L 158 245" stroke="#9F1239" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+
+                    <!-- Partículas brillantes de NO• (azul) y GMPc (verde) -->
+                    <g id="erection-molecules" opacity="0">
+                      <circle class="bio-spark" cx="132" cy="165" r="4.5" fill="#0284C7" stroke="#1E293B" stroke-width="1.4" />
+                      <circle class="bio-spark" style="animation-delay:0.4s" cx="158" cy="190" r="4.5" fill="#059669" stroke="#1E293B" stroke-width="1.4" />
+                      <circle class="bio-spark" style="animation-delay:0.8s" cx="134" cy="220" r="4.5" fill="#059669" stroke="#1E293B" stroke-width="1.4" />
+                      <circle class="bio-spark" style="animation-delay:1.2s" cx="156" cy="238" r="4" fill="#0284C7" stroke="#1E293B" stroke-width="1.4" />
+                    </g>
+
+                    <!-- Glande en el extremo -->
+                    <path
+                      id="penis-glans"
+                      d="M 111 260 C 111 250, 179 250, 179 260 C 182 296, 163 320, 145 320 C 127 320, 108 296, 111 260 Z"
+                      fill="#F472B6"
+                      stroke="#1E293B"
+                      stroke-width="3.4"
+                    />
+                    <path d="M 112 261 Q 145 270 178 261" fill="none" stroke="#1E293B" stroke-width="2.6" />
+
+                    <!-- EXPRESIONES FACIALES SEGÚN ESTADO (0 a 3) -->
+                    <!-- 0: Dormido -->
+                    <g id="expr-0">
+                      <path d="M 125 277 Q 132 282 139 277" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
+                      <path d="M 151 277 Q 158 282 165 277" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
+                      <ellipse cx="145" cy="296" rx="5" ry="4" fill="#881337" stroke="#1E293B" stroke-width="1.8" />
+                      <text x="176" y="302" font-family="Fredoka, sans-serif" font-size="13" font-weight="700" fill="#64748B">Zzz</text>
+                    </g>
+
+                    <!-- 1: Despierto (Señal cerebral) -->
+                    <g id="expr-1" opacity="0">
+                      <circle cx="132" cy="277" r="6" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                      <circle cx="132" cy="277" r="2.5" fill="#1E293B" />
+                      <circle cx="158" cy="277" r="6" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                      <circle cx="158" cy="277" r="2.5" fill="#1E293B" />
+                      <circle cx="145" cy="296" r="4.5" fill="#9F1239" stroke="#1E293B" stroke-width="1.8" />
+                    </g>
+
+                    <!-- 2: Motivado (NO• subiendo) -->
+                    <g id="expr-2" opacity="0">
+                      <path d="M 124 268 L 138 271" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
+                      <path d="M 166 268 L 152 271" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
+                      <circle cx="132" cy="278" r="6" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                      <circle cx="133" cy="278" r="2.8" fill="#1E293B" />
+                      <circle cx="158" cy="278" r="6" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                      <circle cx="159" cy="278" r="2.8" fill="#1E293B" />
+                      <path d="M 134 293 Q 145 304 156 293" fill="none" stroke="#1E293B" stroke-width="2.6" stroke-linecap="round" />
+                    </g>
+
+                    <!-- 3: Héroe con gafas de sol (Erección total GMPc) -->
+                    <g id="expr-3" opacity="0">
+                      <rect x="119" y="270" width="22" height="13" rx="3.5" fill="#0F172A" />
+                      <rect x="149" y="270" width="22" height="13" rx="3.5" fill="#0F172A" />
+                      <line x1="141" y1="275" x2="149" y2="275" stroke="#0F172A" stroke-width="2.8" />
+                      <line x1="123" y1="273" x2="128" y2="280" stroke="#38BDF8" stroke-width="2" />
+                      <line x1="153" y1="273" x2="158" y2="280" stroke="#38BDF8" stroke-width="2" />
+                      <path d="M 131 292 Q 145 307 159 292 Z" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Etiqueta limpia de estado fisiológico -->
+          <div class="w-full flex items-center justify-center pt-2">
+            <span id="erection-caption" class="text-xs font-bold text-slate-700 text-center">
+              Tono simpático basal (sin NO•)
+            </span>
+          </div>
+        </div>
+
+        <!-- COLUMNA DERECHA (7 cols): LOS 3 EPÍGRAFES EXCLUSIVOS -->
+        <div class="md:col-span-7 h-full flex flex-col justify-between gap-3.5">
+          <div class="px-3.5 py-2 rounded-xl bg-white border-2 border-slate-800 text-xs font-bold text-slate-700 flex items-center justify-between gap-2">
+            <span>Haz clic en cada epígrafe para ver el proceso de la empalmada:</span>
+            <span class="hidden sm:inline text-[#E11D48] shrink-0">3 fases</span>
+          </div>
+
+          <!-- ==================================================================
+               EPÍGRAFE 1: COMIENZA EN EL CEREBRO (SEÑAL NANC)
+               ================================================================== -->
+          <div class="epigrafe-item info-card info-card-clickable overflow-hidden" data-step="1">
+            <button type="button" class="epigrafe-trigger w-full p-3.5 sm:p-4 bg-violet-100 hover:bg-violet-200 flex items-center justify-between gap-3 text-left cursor-pointer" aria-expanded="false">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-violet-600 text-white font-comic font-bold text-base flex items-center justify-center border-2 border-slate-800 shrink-0">
+                  1
+                </span>
+                <div>
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                    1. Comienza en el cerebro (señal NANC)
+                  </h3>
+                  <span class="text-[11px] font-semibold text-violet-900">
+                    Hipotálamo → Médula S2–S4 → Nervios cavernosos (ACh + NANC)
+                  </span>
+                </div>
+              </div>
+              <span class="epigrafe-arrow w-7 h-7 rounded-md bg-white border-2 border-slate-800 flex items-center justify-center text-xs font-bold shrink-0">
+                ▼
+              </span>
+            </button>
+
+            <div class="epigrafe-body">
+              <div class="epigrafe-inner">
+                <div class="p-3.5 sm:p-4 border-t-2 border-slate-800 bg-white space-y-2.5">
+                  <!-- DIAGRAMA SVG RUTA NEURONAL -->
+                  <svg viewBox="0 0 560 128" class="w-full h-auto bg-slate-50 rounded-xl border border-slate-300 p-1">
+                    <!-- Nodo 1: Cerebro -->
+                    <rect x="10" y="20" width="135" height="86" rx="12" fill="#EDE9FE" stroke="#1E293B" stroke-width="2" />
+                    <text x="77" y="46" text-anchor="middle" font-size="20">🧠</text>
+                    <text x="77" y="66" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#1E293B">Cerebro</text>
+                    <text x="77" y="81" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#5B21B6">MPOA / PVN hipotálamo</text>
+                    <text x="77" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#475569">Estímulo sensorial / erótico</text>
+
+                    <!-- Flecha 1 -->
+                    <line x1="148" y1="63" x2="195" y2="63" stroke="#7C3AED" stroke-width="3" class="flow-line" />
+                    <polygon points="195,57 206,63 195,69" fill="#7C3AED" />
+
+                    <!-- Nodo 2: Médula Sacra -->
+                    <rect x="208" y="24" width="125" height="78" rx="12" fill="#F3E8FF" stroke="#1E293B" stroke-width="2" />
+                    <text x="270" y="48" text-anchor="middle" font-size="18">⚡</text>
+                    <text x="270" y="67" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11.5" font-weight="700" fill="#1E293B">Médula sacra</text>
+                    <text x="270" y="82" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#6D28D9">Centro S2–S4</text>
+                    <text x="270" y="94" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" fill="#475569">Vía parasimpática</text>
+
+                    <!-- Flecha 2 -->
+                    <line x1="336" y1="63" x2="380" y2="63" stroke="#7C3AED" stroke-width="3" class="flow-line" />
+                    <polygon points="380,57 391,63 380,69" fill="#7C3AED" />
+
+                    <!-- Nodo 3: Terminación Cavernosa -->
+                    <rect x="393" y="16" width="157" height="94" rx="12" fill="#E0F2FE" stroke="#1E293B" stroke-width="2" />
+                    <text x="471" y="37" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11.5" font-weight="700" fill="#1E293B">Nervios cavernosos</text>
+                    <rect x="405" y="45" width="133" height="24" rx="6" fill="#FFFFFF" stroke="#0284C7" stroke-width="1.5" />
+                    <text x="471" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#0369A1">Sinapsis NANC</text>
+                    <rect x="405" y="75" width="133" height="24" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" />
+                    <text x="471" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#5B21B6">ACh</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================================================================
+               EPÍGRAFE 2: NOS (ÓXIDO NÍTRICO SINTASA) -> nNOS Y eNOS
+               ================================================================== -->
+          <div class="epigrafe-item info-card info-card-clickable overflow-hidden" data-step="2">
+            <button type="button" class="epigrafe-trigger w-full p-3.5 sm:p-4 bg-sky-100 hover:bg-sky-200 flex items-center justify-between gap-3 text-left cursor-pointer" aria-expanded="false">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-[#0284C7] text-white font-comic font-bold text-base flex items-center justify-center border-2 border-slate-800 shrink-0">
+                  2
+                </span>
+                <div>
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                    2. La óxido nítrico sintasa produce NO
+                  </h3>
+                  <span class="text-[11px] font-semibold text-sky-950">
+                    Catálisis L-Arginina + O₂ → NO• + L-Citrulina (nNOS y eNOS)
+                  </span>
+                </div>
+              </div>
+              <span class="epigrafe-arrow w-7 h-7 rounded-md bg-white border-2 border-slate-800 flex items-center justify-center text-xs font-bold shrink-0">
+                ▼
+              </span>
+            </button>
+
+            <div class="epigrafe-body">
+              <div class="epigrafe-inner">
+                <div class="p-3.5 sm:p-4 border-t-2 border-slate-800 bg-white space-y-2.5">
+                  <!-- DIAGRAMA SVG BIFURCADO nNOS Y eNOS -->
+                  <svg viewBox="0 0 560 176" class="w-full h-auto bg-slate-50 rounded-xl border border-slate-300 p-1">
+                    <!-- RAMA SUPERIOR: nNOS (Neuronal) -->
+                    <rect x="10" y="10" width="355" height="72" rx="12" fill="#E0F2FE" stroke="#1E293B" stroke-width="2" />
+                    <rect x="18" y="18" width="102" height="22" rx="6" fill="#0284C7" />
+                    <text x="69" y="33" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">⚡ nNOS (neuronal)</text>
+                    <text x="128" y="33" font-family="Inter, sans-serif" font-size="10" font-weight="800" fill="#0F172A">Disparo inicial rápido</text>
+                    <text x="20" y="54" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" fill="#1E293B">
+                      Despolarización → entrada Ca²⁺ → complejo Ca²⁺/calmodulina activa nNOS
+                    </text>
+                    <text x="20" y="70" font-family="monospace" font-size="9.5" font-weight="700" fill="#0369A1">
+                      L-Arginina + O₂ + NADPH ──(BH4)──▶ NO• (chispa) + L-Citrulina
+                    </text>
+
+                    <!-- RAMA INFERIOR: eNOS (Endotelial) -->
+                    <rect x="10" y="94" width="355" height="72" rx="12" fill="#CCFBF1" stroke="#1E293B" stroke-width="2" />
+                    <rect x="18" y="102" width="118" height="22" rx="6" fill="#0D9488" />
+                    <text x="77" y="117" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">🌊 eNOS (endotelial)</text>
+                    <text x="144" y="117" font-family="Inter, sans-serif" font-size="10" font-weight="800" fill="#0F172A">Producción sostenida</text>
+                    <text x="20" y="138" font-family="Inter, sans-serif" font-size="9.5" font-weight="600" fill="#1E293B">
+                      Flujo sanguíneo (shear stress) + ACh → vía PI3K/Akt → fosforila Ser1177
+                    </text>
+                    <text x="20" y="154" font-family="monospace" font-size="9.5" font-weight="700" fill="#0F766E">
+                      L-Arginina + O₂ + NADPH ──(BH4)──▶ NO• (masivo) + L-Citrulina
+                    </text>
+
+                    <!-- Flechas convergentes hacia el gas Óxido Nítrico -->
+                    <path d="M 368 46 Q 405 46 418 76" fill="none" stroke="#0284C7" stroke-width="3" class="flow-line" />
+                    <path d="M 368 130 Q 405 130 418 100" fill="none" stroke="#0D9488" stroke-width="3" class="flow-line" />
+                    <polygon points="414,82 426,88 414,94" fill="#0284C7" />
+
+                    <!-- NODO CENTRAL GAS NO• -->
+                    <circle cx="488" cy="88" r="58" fill="#0284C7" stroke="#1E293B" stroke-width="3" />
+                    <text x="488" y="76" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="21" font-weight="700" fill="#FFFFFF">💨 NO•</text>
+                    <text x="488" y="95" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="800" fill="#E0F2FE">Óxido nítrico</text>
+                    <text x="488" y="110" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="600" fill="#BAE6FD">Gas lipófilo difusible</text>
+                    <text x="488" y="122" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="600" fill="#BAE6FD">cruza al músculo liso</text>
+                  </svg>
+
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="mol-pill bg-sky-50">Cofactores NOS: NADPH, BH4, FAD, FMN, hemo</span>
+                    <span class="mol-pill bg-teal-50">Sinergia: nNOS arranca • eNOS mantiene</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================================================================
+               EPÍGRAFE 3: GC (GUANILATO CICLASA / GUANOLATO SINTASA) -> GTP -> GMPc
+               ================================================================== -->
+          <div class="epigrafe-item info-card info-card-clickable overflow-hidden" data-step="3">
+            <button type="button" class="epigrafe-trigger w-full p-3.5 sm:p-4 bg-emerald-100 hover:bg-emerald-200 flex items-center justify-between gap-3 text-left cursor-pointer" aria-expanded="false">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-lg bg-[#059669] text-white font-comic font-bold text-base flex items-center justify-center border-2 border-slate-800 shrink-0">
+                  3
+                </span>
+                <div>
+                  <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                    3. GC (guanilato ciclasa / guanolato sintasa)
+                  </h3>
+                  <span class="text-[11px] font-semibold text-emerald-950">
+                    NO• + Hemo-sGC → GTP → GMPc → PKG → Relaja músculo liso = erección
+                  </span>
+                </div>
+              </div>
+              <span class="epigrafe-arrow w-7 h-7 rounded-md bg-white border-2 border-slate-800 flex items-center justify-center text-xs font-bold shrink-0">
+                ▼
+              </span>
+            </button>
+
+            <div class="epigrafe-body">
+              <div class="epigrafe-inner">
+                <div class="p-3.5 sm:p-4 border-t-2 border-slate-800 bg-white space-y-2.5">
+                  <!-- DIAGRAMA SVG CASCADA sGC -> GMPc -> PKG -> VENO-OCLUSIÓN -->
+                  <svg viewBox="0 0 560 155" class="w-full h-auto bg-slate-50 rounded-xl border border-slate-300 p-1">
+                    <!-- Paso A: Unión NO• al grupo Hemo de GC -->
+                    <rect x="8" y="16" width="132" height="122" rx="12" fill="#ECFEFF" stroke="#1E293B" stroke-width="2" />
+                    <text x="74" y="38" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11.5" font-weight="700" fill="#0E7490">1. Activación GC</text>
+                    <circle cx="74" cy="68" r="21" fill="#F59E0B" stroke="#1E293B" stroke-width="2" />
+                    <text x="74" y="72" text-anchor="middle" font-family="monospace" font-size="10" font-weight="800" fill="#FFF">Fe²⁺-hemo</text>
+                    <text x="74" y="104" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">NO• se une a sGC</text>
+                    <text x="74" y="118" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#059669">↑200x velocidad</text>
+
+                    <line x1="142" y1="77" x2="162" y2="77" stroke="#059669" stroke-width="3" class="flow-line" />
+                    <polygon points="162,72 171,77 162,82" fill="#059669" />
+
+                    <!-- Paso B: GTP -> GMPc -> PKG -->
+                    <rect x="173" y="16" width="166" height="122" rx="12" fill="#D1FAE5" stroke="#1E293B" stroke-width="2" />
+                    <text x="256" y="38" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11.5" font-weight="700" fill="#065F46">2. Segundo mensajero</text>
+                    <rect x="185" y="46" width="142" height="26" rx="7" fill="#059669" stroke="#1E293B" stroke-width="1.6" />
+                    <text x="256" y="63" text-anchor="middle" font-family="monospace" font-size="12" font-weight="800" fill="#FFFFFF">GTP ──▶ GMPc</text>
+                    <text x="256" y="88" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="800" fill="#064E3B">Activa proteína quinasa G (PKG)</text>
+                    <text x="256" y="104" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.8" font-weight="600" fill="#1E293B">• Abre canales K⁺ / cierra Ca²⁺-L</text>
+                    <text x="256" y="118" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.8" font-weight="600" fill="#1E293B">• Bomba SERCA + activa MLCP</text>
+
+                    <line x1="341" y1="77" x2="361" y2="77" stroke="#E11D48" stroke-width="3" class="flow-line" />
+                    <polygon points="361,72 370,77 361,82" fill="#E11D48" />
+
+                    <!-- Paso C: Relajación muscular y erección -->
+                    <rect x="372" y="16" width="180" height="122" rx="12" fill="#FFE4E6" stroke="#1E293B" stroke-width="2.2" />
+                    <text x="462" y="38" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11.5" font-weight="700" fill="#9F1239">3. Hidráulica vascular</text>
+                    <text x="462" y="56" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="800" fill="#1E293B">↓ Ca²⁺ citosólico</text>
+                    <text x="462" y="71" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="800" fill="#059669">Relaja músculo liso vascular</text>
+                    <text x="462" y="86" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#1E293B">Dilata arterias helicinas</text>
+                    <text x="462" y="100" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#1E293B">Comprime venas emisarias</text>
+                    <rect x="392" y="108" width="140" height="22" rx="6" fill="#E11D48" stroke="#1E293B" stroke-width="1.5" />
+                    <text x="462" y="123" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11" font-weight="700" fill="#FFFFFF">¡Acero pa' los barcos!</text>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         PARTE 2 — VUELTA AL BLANDIBLÚ
+         (EPÍGRAFES SIEMPRE DESPLEGADOS A LA IZQUIERDA Y WIDGET DEL PENE A LA DERECHA)
+         ======================================================================== -->
+    <section id="sec-flacidez" class="scroll-mt-8 space-y-4">
+      <div class="flex flex-wrap items-center justify-end gap-2">
+        <div class="flex items-center gap-2.5">
+          <h2 class="text-xl sm:text-3xl font-bold text-slate-900">
+            Se queda el diodeno como un flan
+          </h2>
+          <!-- Cartel con forma de pene apuntando hacia la izquierda y dos testículos a la derecha -->
+          <svg viewBox="0 0 138 48" class="h-11 w-auto shrink-0 select-none" role="img" aria-label="Parte 2">
+            <circle cx="118" cy="16" r="12.5" fill="#0284C7" stroke="#1E293B" stroke-width="2.5" />
+            <circle cx="118" cy="32" r="12.5" fill="#0284C7" stroke="#1E293B" stroke-width="2.5" />
+            <path d="M 116 12 L 32 12 L 32 36 L 116 36 Z" fill="#0284C7" stroke="#1E293B" stroke-width="2.5" stroke-linejoin="round" />
+            <rect x="106" y="13.5" width="15" height="21" rx="6" fill="#0284C7" />
+            <path d="M 33 10 C 14 10, 4 17, 4 24 C 4 31, 14 38, 33 38 Z" fill="#0284C7" stroke="#1E293B" stroke-width="2.5" stroke-linejoin="round" />
+            <text x="74" y="28.5" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12.5" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">
+              PARTE 2
+            </text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- GRID HORIZONTAL EN PARALELO CON ALTURA SINCRONIZADA (items-stretch) -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+
+        <!-- COLUMNA IZQUIERDA (7 cols): 2 BLOQUES SIEMPRE DESPLEGADOS -->
+        <div class="md:col-span-7 h-full flex flex-col justify-between gap-3.5">
+
+          <!-- ==================================================================
+               BLOQUE 1 (SIEMPRE DESPLEGADO, SIN NUMERACIÓN): PDE5 — DESTRUYE GMPc
+               ================================================================== -->
+          <div class="info-card overflow-hidden">
+            <div class="w-full p-3.5 sm:p-4 bg-amber-100 flex items-center justify-between gap-3">
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                  PDE5 — Destruye GMPc
+                </h3>
+                <span class="text-[11px] font-semibold text-amber-950">
+                  Fosfodiesterasa 5: hidroliza el GMPc a 5'-GMP (detumescencia)
+                </span>
+              </div>
+              <span class="mol-pill bg-amber-200 shrink-0">Fosfodiesterasa 5</span>
+            </div>
+
+            <div class="p-3.5 sm:p-4 border-t-2 border-slate-800 bg-white space-y-2.5">
+              <!-- DIAGRAMA SVG INTERACTIVO PDE5 -->
+              <svg viewBox="0 0 560 154" class="w-full h-auto bg-slate-50 rounded-xl border border-slate-300 p-1" role="img" aria-label="Diagrama bioquímico interactivo de la PDE5, Viagra (sildenafilo), GMPc y 5'-GMP">
+                <!-- 1. PÍLDORA AZUL VIAGRA (SILDENAFILO) A LA IZQUIERDA -->
+                <g id="viagra-pill-group">
+                  <rect
+                    id="viagra-pill-body"
+                    x="12"
+                    y="45"
+                    width="84"
+                    height="46"
+                    rx="23"
+                    fill="#DBEAFE"
+                    stroke="#1E293B"
+                    stroke-width="2.4"
+                  />
+                  <line x1="54" y1="46" x2="54" y2="90" stroke="#1E293B" stroke-width="1.6" opacity="0.45" />
+                  <path d="M 24 53 Q 38 50 47 53" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" opacity="0.85" />
+                  <text id="viagra-pill-label" x="54" y="73" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="13.5" font-weight="700" fill="#1E3A8A">
+                    Viagra
+                  </text>
+                  <text x="54" y="106" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E40AF">
+                    (sildenafilo)
+                  </text>
+                </g>
+
+                <!-- Línea / bloqueo entre Viagra y PDE5 -->
+                <g id="viagra-block-link" opacity="0.28">
+                  <line x1="100" y1="68" x2="146" y2="68" stroke="#2563EB" stroke-width="3" stroke-dasharray="5 4" />
+                  <line x1="146" y1="57" x2="146" y2="79" stroke="#2563EB" stroke-width="3.6" stroke-linecap="round" />
+                </g>
+
+                <!-- 2. ENZIMA PDE5 (PAC-MAN) -->
+                <g id="pde5-pacman-group">
+                  <path
+                    id="pde5-pacman-body"
+                    d="M 205 68 L 249 68 A 44 44 0 1 0 249 68.1 Z"
+                    fill="#CBD5E1"
+                    stroke="#1E293B"
+                    stroke-width="2.6"
+                    stroke-linejoin="round"
+                  />
+                  <line
+                    id="pde5-closed-mouth"
+                    x1="205"
+                    y1="68"
+                    x2="249"
+                    y2="68"
+                    stroke="#1E293B"
+                    stroke-width="2.6"
+                    stroke-linecap="round"
+                  />
+                  <circle cx="198" cy="44" r="4.5" fill="#1E293B" />
+                  <text x="184" y="73" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="13" font-weight="700" fill="#0F172A">
+                    PDE5
+                  </text>
+                </g>
+
+                <!-- 3. CÍRCULO GMPc (INICIA A LA DERECHA DEL PAC-MAN, VERDE Y ACTIVO) -->
+                <g id="pde5-cgmp-node" transform="translate(0, 0)">
+                  <circle
+                    id="pde5-cgmp-circle"
+                    cx="294"
+                    cy="68"
+                    r="28"
+                    fill="#10B981"
+                    stroke="#1E293B"
+                    stroke-width="2.4"
+                  />
+                  <text x="294" y="66" text-anchor="middle" font-family="monospace" font-size="13" font-weight="800" fill="#FFFFFF">
+                    GMPc
+                  </text>
+                  <text id="pde5-cgmp-status" x="294" y="80" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="800" fill="#ECFDF5">
+                    (activo)
+                  </text>
+                </g>
+
+                <!-- 4. FLECHA ENTRE GMPc Y 5'-GMP -->
+                <g id="pde5-to-5gmp-arrow" opacity="0">
+                  <line x1="286" y1="68" x2="420" y2="68" stroke="#10B981" stroke-width="3.2" class="flow-line" />
+                  <polygon points="420,62 431,68 420,74" fill="#10B981" />
+                </g>
+
+                <!-- 5. BLOQUE DERECHO 5'-GMP -->
+                <g id="pde5-5gmp-group">
+                  <rect
+                    id="pde5-5gmp-box"
+                    x="434"
+                    y="43"
+                    width="112"
+                    height="50"
+                    rx="12"
+                    fill="#E2E8F0"
+                    stroke="#1E293B"
+                    stroke-width="2.4"
+                  />
+                  <text
+                    id="pde5-5gmp-text"
+                    x="490"
+                    y="73"
+                    text-anchor="middle"
+                    font-family="monospace"
+                    font-size="15"
+                    font-weight="800"
+                    fill="#475569"
+                  >
+                    5'-GMP
+                  </text>
+                </g>
+
+                <!-- Pie explicativo gráfico -->
+                <text x="280" y="138" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">
+                  PDE5 degrada el GMPc a 5'-GMP → cesa PKG → ↑ Ca²⁺ → contracción vascular
+                </text>
+              </svg>
+
+              <!-- Botones interactivos del bloque PDE5 -->
+              <div class="flex flex-col sm:flex-row gap-2">
+                <button type="button" onclick="triggerFlaccidAction('pde5')" class="info-btn flex-1 py-2 px-3 bg-amber-300 hover:bg-amber-400 text-slate-900 font-bold text-xs">
+                  Activar PDE5
+                </button>
+                <button type="button" id="btn-toggle-ipde5" onclick="togglePDE5Inhibitor()" class="info-btn flex-1 py-2 px-3 bg-sky-300 hover:bg-sky-400 text-slate-900 font-bold text-xs">
+                  Bloquear con Viagra (sildenafilo)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================================================================
+               BLOQUE 2 (SIEMPRE DESPLEGADO, SIN NUMERACIÓN): RHO-QUINASA
+               ================================================================== -->
+          <div class="info-card overflow-hidden">
+            <div class="w-full p-3.5 sm:p-4 bg-sky-100 flex items-center justify-between gap-3">
+              <div>
+                <h3 class="text-base sm:text-lg font-bold text-slate-900">
+                  Rho-quinasa — Mantiene flacidez
+                </h3>
+                <span class="text-[11px] font-semibold text-sky-950">
+                  Vía RhoA / ROCK: inhibe fosfatasa MLCP y cierra arterias en reposo
+                </span>
+              </div>
+              <span class="mol-pill bg-sky-200 shrink-0">Vía RhoA / ROCK</span>
+            </div>
+
+            <div class="p-3.5 sm:p-4 border-t-2 border-slate-800 bg-white space-y-2.5">
+              <!-- DIAGRAMA SVG VÍA RHOA / ROCK / FOSFATASA MLCP -->
+              <svg viewBox="0 0 560 158" class="w-full h-auto bg-slate-50 rounded-xl border border-slate-300 p-1">
+                <!-- Fila 1: Noradrenalina -> Rec. α1 -> RhoA-GTP -->
+                <rect x="14" y="12" width="150" height="36" rx="9" fill="#FEE2E2" stroke="#1E293B" stroke-width="1.8" />
+                <text x="89" y="28" text-anchor="middle" font-family="Inter, sans-serif" font-size="10" font-weight="800" fill="#991B1B">Noradrenalina</text>
+                <text x="89" y="40" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.8" font-weight="600" fill="#7F1D1D">(tono simpático)</text>
+
+                <line x1="168" y1="30" x2="205" y2="30" stroke="#1E293B" stroke-width="2.4" />
+                <polygon points="205,25 214,30 205,35" fill="#1E293B" />
+
+                <rect x="218" y="12" width="112" height="36" rx="9" fill="#E0F2FE" stroke="#1E293B" stroke-width="1.8" />
+                <text x="274" y="34" text-anchor="middle" font-family="monospace" font-size="11.5" font-weight="800" fill="#0369A1">Rec. α₁</text>
+
+                <line x1="334" y1="30" x2="371" y2="30" stroke="#1E293B" stroke-width="2.4" />
+                <polygon points="371,25 380,30 371,35" fill="#1E293B" />
+
+                <rect x="384" y="12" width="160" height="36" rx="9" fill="#DBEAFE" stroke="#1E293B" stroke-width="1.8" />
+                <text x="464" y="34" text-anchor="middle" font-family="monospace" font-size="11.5" font-weight="800" fill="#1E40AF">RhoA-GTP</text>
+
+                <!-- Flecha bajando a ROCK -->
+                <line x1="464" y1="50" x2="464" y2="66" stroke="#0284C7" stroke-width="2.8" class="flow-line" />
+                <polygon points="459,66 464,74 469,66" fill="#0284C7" />
+
+                <!-- Caja derecha Rho-quinasa (ROCK) -->
+                <rect x="350" y="75" width="194" height="38" rx="9" fill="#0284C7" stroke="#1E293B" stroke-width="2.2" />
+                <text x="447" y="92" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12" font-weight="700" fill="#FFF">🔒 Rho-quinasa (ROCK)</text>
+                <text x="447" y="106" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#E0F2FE">Fosforila y bloquea MLCP</text>
+
+                <!-- Inhibición (línea en T) sobre Fosfatasa MLCP -->
+                <line x1="346" y1="94" x2="274" y2="94" stroke="#E11D48" stroke-width="3.2" />
+                <line x1="274" y1="84" x2="274" y2="104" stroke="#E11D48" stroke-width="3.8" />
+                <text x="310" y="84" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="800" fill="#E11D48">Inhibe</text>
+
+                <!-- Caja izquierda Fosfatasa MLCP bloqueada -->
+                <rect x="14" y="75" width="252" height="38" rx="9" fill="#F1F5F9" stroke="#1E293B" stroke-width="1.8" stroke-dasharray="4 3" />
+                <text x="140" y="92" text-anchor="middle" font-family="monospace" font-size="10.5" font-weight="800" fill="#475569">Fosfatasa MLCP</text>
+                <text x="140" y="106" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.8" font-weight="700" fill="#E11D48">Bloqueada (Thr696-P)</text>
+
+                <!-- Resultado inferior: Sensibilización al Ca²⁺ -->
+                <rect x="14" y="121" width="530" height="30" rx="9" fill="#FEF3C7" stroke="#1E293B" stroke-width="2" />
+                <text x="280" y="140" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.8" font-weight="800" fill="#1E293B">
+                  Sensibilización al Ca²⁺: mantiene arterias cerradas y músculo liso contraído
+                </text>
+              </svg>
+
+              <button type="button" onclick="triggerFlaccidAction('rock')" class="info-btn w-full py-2 px-3 bg-sky-300 hover:bg-sky-400 text-slate-900 font-bold text-xs">
+                Activar cerrojo Rho-quinasa (ROCK)
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA (5 cols): WIDGET DEL PENE (A LA DERECHA DEL TODO CON LA PUNTA HACIA LA IZQUIERDA) -->
+        <div class="md:col-span-5 h-full info-card p-4 bg-gradient-to-b from-rose-50 via-white to-sky-50 flex flex-col justify-between items-center">
+
+          <!-- Botón situado en el interior del recuadro del pene, en la parte superior -->
+          <div class="w-full flex justify-center pb-2">
+            <button id="btn-reset-flaccid" type="button" class="info-btn px-3 py-1.5 bg-rose-100 hover:bg-rose-200 text-slate-900 font-bold text-xs flex items-center gap-1.5">
+              <span>Ponerla tiesa de nuevo</span>
+            </button>
+          </div>
+
+          <!-- Lienzo SVG del pene empezando erecto hacia la izquierda (+128°) y descendiendo a flácido (0°) -->
+          <div class="flex-1 w-full flex items-center justify-center">
+            <div class="w-full max-w-[265px] mx-auto">
+              <svg
+                id="svg-flaccid-stage"
+                viewBox="68 -16 288 346"
+                class="w-full h-auto overflow-visible select-none"
+                role="img"
+                aria-label="Diagrama SVG interactivo del pene empezando erecto hacia la izquierda y volviendo a la flacidez"
+              >
+                <!-- Arco guía de detumescencia desde +128° (arriba-izquierda) hasta 0° (abajo) -->
+                <path
+                  d="M 129 10 A 190 190 0 0 0 279 315"
+                  fill="none"
+                  stroke="#94A3B8"
+                  stroke-width="2"
+                  stroke-dasharray="5 5"
+                />
+                <text x="74" y="12" font-family="Inter, sans-serif" font-size="10.5" font-weight="800" fill="#0284C7">
+                  ↓ Detumescencia
+                </text>
+
+                <!-- TESTÍCULO IZQUIERDO (Fijo en la base derecha) -->
+                <g>
+                  <ellipse cx="249" cy="126" rx="25" ry="33" fill="#F9A8D4" stroke="#1E293B" stroke-width="3.2" />
+                  <path d="M 237 114 Q 233 128 239 142" fill="none" stroke="#DB2777" stroke-width="2" stroke-linecap="round" />
+                </g>
+
+                <!-- TESTÍCULO DERECHO (Fijo en la base derecha) -->
+                <g>
+                  <ellipse cx="309" cy="126" rx="25" ry="33" fill="#F9A8D4" stroke="#1E293B" stroke-width="3.2" />
+                  <path d="M 321 114 Q 325 128 319 142" fill="none" stroke="#DB2777" stroke-width="2" stroke-linecap="round" />
+                </g>
+
+                <!-- ==============================================================
+                     TRONCO DEL PENE QUE ROTA EXACTAMENTE EN LA BASE (279, 125)
+                     Empieza en +128° (duro/erecto apuntando a la izquierda) y baja a +52° y 0°
+                     ============================================================== -->
+                <g id="sec2-shaft-pivot" class="erect-glow" transform="rotate(128, 279, 125)">
+                  <g id="sec2-shaft-engorge" transform="scale(1.135, 1.105)">
+                    <!-- Bulbo basal redondeado centrado en (279, 125) -->
+                    <circle cx="279" cy="125" r="29" fill="url(#gradErect)" stroke="#1E293B" stroke-width="3.4" id="sec2-root-bulb" />
+
+                    <!-- Cuerpo cavernoso principal -->
+                    <path
+                      id="sec2-body-path"
+                      d="M 251 125 L 307 125 L 310 262 C 310 284, 248 284, 248 262 Z"
+                      fill="url(#gradErect)"
+                      stroke="#1E293B"
+                      stroke-width="3.4"
+                      stroke-linejoin="round"
+                    />
+                    <!-- Tapar costura superior del bulbo dentro del tronco -->
+                    <rect x="253" y="114" width="52" height="24" rx="10" fill="url(#gradErect)" id="sec2-seam-cover" />
+
+                    <!-- Cuerpos cavernosos internos -->
+                    <rect id="sec2-cavernosa-l" x="260" y="128" width="12" height="122" rx="6" fill="#E11D48" opacity="1" />
+                    <rect id="sec2-cavernosa-r" x="286" y="128" width="12" height="122" rx="6" fill="#E11D48" opacity="1" />
+
+                    <!-- Arterias helicinas internas -->
+                    <path id="sec2-helicine-l" d="M 266 132 L 266 245" stroke="#9F1239" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+                    <path id="sec2-helicine-r" d="M 292 132 L 292 245" stroke="#9F1239" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5" />
+
+                    <!-- Partículas activas de GMPc -->
+                    <g id="sec2-molecules" opacity="1">
+                      <circle class="bio-spark" cx="266" cy="165" r="4.5" fill="#059669" stroke="#1E293B" stroke-width="1.4" />
+                      <circle class="bio-spark" style="animation-delay:0.4s" cx="292" cy="190" r="4.5" fill="#059669" stroke="#1E293B" stroke-width="1.4" />
+                      <circle class="bio-spark" style="animation-delay:0.8s" cx="268" cy="220" r="4.5" fill="#0284C7" stroke="#1E293B" stroke-width="1.4" />
+                      <circle class="bio-spark" style="animation-delay:1.2s" cx="290" cy="238" r="4" fill="#059669" stroke="#1E293B" stroke-width="1.4" />
+                    </g>
+
+                    <!-- Glande en el extremo -->
+                    <path
+                      id="sec2-glans"
+                      d="M 245 260 C 245 250, 313 250, 313 260 C 316 296, 297 320, 279 320 C 261 320, 242 296, 245 260 Z"
+                      fill="#E11D48"
+                      stroke="#1E293B"
+                      stroke-width="3.4"
+                    />
+                    <path d="M 246 261 Q 279 270 312 261" fill="none" stroke="#1E293B" stroke-width="2.6" />
+
+                    <!-- EXPRESIONES FACIALES SEGÚN ESTADO DE DETUMESCENCIA -->
+                    <!-- Estado 0: Duro / Erecto (Gafas de sol) -->
+                    <g id="sec2-expr-erect" opacity="1">
+                      <rect x="253" y="270" width="22" height="13" rx="3.5" fill="#0F172A" />
+                      <rect x="283" y="270" width="22" height="13" rx="3.5" fill="#0F172A" />
+                      <line x1="275" y1="275" x2="283" y2="275" stroke="#0F172A" stroke-width="2.8" />
+                      <line x1="257" y1="273" x2="262" y2="280" stroke="#38BDF8" stroke-width="2" />
+                      <line x1="287" y1="273" x2="292" y2="280" stroke="#38BDF8" stroke-width="2" />
+                      <path d="M 265 292 Q 279 307 293 292 Z" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                    </g>
+
+                    <!-- Estado 1: Detumescencia intermedia (PDE5 cortando GMPc) -->
+                    <g id="sec2-expr-detumescence" opacity="0">
+                      <circle cx="266" cy="277" r="6" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                      <circle cx="266" cy="279" r="2.5" fill="#1E293B" />
+                      <circle cx="292" cy="277" r="6" fill="#FFF" stroke="#1E293B" stroke-width="2" />
+                      <circle cx="292" cy="279" r="2.5" fill="#1E293B" />
+                      <path d="M 269 297 Q 279 291 289 297" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
+                      <path d="M 317 266 C 322 274, 322 280, 317 280 C 312 280, 312 274, 317 266 Z" fill="#38BDF8" stroke="#1E293B" stroke-width="1.5" />
+                    </g>
+
+                    <!-- Estado 2: Completamente blando / flácido (Rho-quinasa activa) -->
+                    <g id="sec2-expr-flaccid" opacity="0">
+                      <path d="M 259 277 Q 266 282 273 277" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
+                      <path d="M 285 277 Q 292 282 299 277" fill="none" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" />
+                      <path d="M 271 295 Q 279 300 287 295" fill="none" stroke="#1E293B" stroke-width="2.4" stroke-linecap="round" />
+                      <text x="310" y="302" font-family="Fredoka, sans-serif" font-size="13" font-weight="700" fill="#64748B">Zzz</text>
+                    </g>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Etiqueta limpia de estado fisiológico -->
+          <div class="w-full flex items-center justify-center pt-2">
+            <span id="flaccid-caption" class="text-xs font-bold text-slate-700 text-center">
+              Erección máxima (GMPc elevado y veno-oclusión)
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         PARTE 3 — CAUSAS DE LA DISFUNCIÓN ERÉCTIL (3 TARJETAS HORIZONTALES)
+         ======================================================================== -->
+    <section id="sec-causas" class="scroll-mt-8 space-y-4">
+      <div class="flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <!-- Cartel con forma de pene y dos testículos -->
+          <svg viewBox="0 0 138 48" class="h-11 w-auto shrink-0 select-none" role="img" aria-label="Parte 3">
+            <circle cx="20" cy="16" r="12.5" fill="#D97706" stroke="#1E293B" stroke-width="2.5" />
+            <circle cx="20" cy="32" r="12.5" fill="#D97706" stroke="#1E293B" stroke-width="2.5" />
+            <path d="M 22 12 L 106 12 L 106 36 L 22 36 Z" fill="#D97706" stroke="#1E293B" stroke-width="2.5" stroke-linejoin="round" />
+            <rect x="17" y="13.5" width="15" height="21" rx="6" fill="#D97706" />
+            <path d="M 105 10 C 124 10, 134 17, 134 24 C 134 31, 124 38, 105 38 Z" fill="#D97706" stroke="#1E293B" stroke-width="2.5" stroke-linejoin="round" />
+            <text x="64" y="28.5" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12.5" font-weight="700" fill="#FFFFFF" letter-spacing="0.4">
+              PARTE 3
+            </text>
+          </svg>
+          <h2 class="text-xl sm:text-3xl font-bold text-slate-900">
+            Si no te funciona el fistro de abajo...
+          </h2>
+        </div>
+      </div>
+
+      <!-- Cartel ENCIMA de las 3 tarjetas con el mismo ancho que el bloque de tarjetas -->
+      <div class="w-full px-4 py-2.5 rounded-xl bg-white border-2 border-slate-800 text-xs sm:text-sm font-bold text-slate-700 text-center">
+        Haz clic en cada tarjeta para ampliar la información
+      </div>
+
+      <!-- 3 TARJETAS EN PARALELO CON DIAGRAMAS SVG PROPIOS Y SOMBREADO DE BOTÓN -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch">
+
+        <!-- TARJETA 1: DIABETES -->
+        <article onclick="triggerCauseCard('diabetes')" class="info-card info-card-clickable p-4 bg-white hover:bg-amber-50/40 cursor-pointer flex flex-col justify-between space-y-3">
+          <div class="flex flex-col items-start gap-1.5">
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <span>🍬</span>
+              <span>Diabetes</span>
+            </h3>
+            <span class="mol-pill bg-amber-100 text-amber-950">ROS + Neuropatía</span>
+          </div>
+        
+          <!-- DIAGRAMA SVG DIABETES -->
+          <svg viewBox="0 0 320 195" class="w-full h-auto bg-amber-50/60 rounded-xl border-2 border-slate-800 p-1">
+            <!-- Hiperglucemia -->
+            <rect x="85" y="10" width="150" height="32" rx="8" fill="#F59E0B" stroke="#1E293B" stroke-width="2"></rect>
+            <text x="160" y="30" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11.5" font-weight="700" fill="#FFF">↑ GLUCOSA / AGEs / ROS</text>
+        
+            <!-- Bifurcación -->
+            <line x1="120" y1="42" x2="80" y2="66" stroke="#E11D48" stroke-width="2.5"></line>
+            <line x1="200" y1="42" x2="240" y2="66" stroke="#E11D48" stroke-width="2.5"></line>
+        
+            <!-- Rama Izquierda: Secuestro de NO -> Peroxinitrito -->
+            <rect x="10" y="68" width="144" height="74" rx="10" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"></rect>
+            <text x="82" y="85" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#991B1B">ESTRÉS OXIDATIVO</text>
+            <text x="82" y="102" text-anchor="middle" font-family="monospace" font-size="9.5" font-weight="800" fill="#0F172A">NO• + O₂•⁻ ──▶ ONOO⁻</text>
+            <text x="82" y="117" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" fill="#E11D48">(Peroxinitrito tóxico)</text>
+            <text x="82" y="132" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.2" font-weight="600" fill="#475569">Destruye NO y apaga eNOS</text>
+        
+            <!-- Rama Derecha: Neuropatía autonómica -->
+            <rect x="166" y="68" width="144" height="74" rx="10" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"></rect>
+            <text x="238" y="85" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#991B1B">NEUROPATÍA</text>
+            <text x="238" y="103" text-anchor="middle" font-family="monospace" font-size="10" font-weight="800" fill="#E11D48">✖ Axones nNOS</text>
+            <text x="238" y="119" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" fill="#334155">Sin impulso inicial</text>
+            <text x="238" y="132" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.2" font-weight="600" fill="#475569">Falla la chispa nerviosa</text>
+        
+            <!-- Conclusión inferior tarjeta -->
+            <rect x="10" y="152" width="300" height="32" rx="8" fill="#FFE4E6" stroke="#1E293B" stroke-width="1.8"></rect>
+            <text x="160" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="800" fill="#9F1239">
+              Doble golpe: ↓ nNOS + ↓ eNOS → No llega NO• a sGC
+            </text>
+          </svg>
+        
+          <div class="flex items-center justify-between text-xs font-bold text-amber-900">
+            <span>Afecta a nNOS, eNOS y biodisponibilidad NO•</span>
+          </div>
+        </article>
+
+        <!-- TARJETA 2: PROBLEMAS CARDIOVASCULARES -->
+        <article onclick="triggerCauseCard('cardio')" class="info-card info-card-clickable p-4 bg-white hover:bg-rose-50/40 cursor-pointer flex flex-col justify-between space-y-3">
+          <div class="flex flex-col items-start gap-1.5">
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <span>❤️</span>
+              <span>Problemas Cardiovasculares</span>
+            </h3>
+            <span class="mol-pill bg-rose-100 text-rose-950">Calibre Arterial</span>
+          </div>
+        
+          <!-- DIAGRAMA SVG COMPARATIVO 1-2 mm VS 3-4 mm -->
+          <svg viewBox="0 0 320 195" class="w-full h-auto bg-rose-50/60 rounded-xl border-2 border-slate-800 p-1">
+            <!-- Arteria Cavernosa (1-2 mm) -->
+            <text x="85" y="22" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="10.5" font-weight="700" fill="#9F1239">ART. CAVERNOSA</text>
+            <text x="85" y="35" text-anchor="middle" font-family="monospace" font-size="10" font-weight="800" fill="#E11D48">Ø 1 – 2 mm</text>
+            <circle cx="85" cy="84" r="34" fill="#FDA4AF" stroke="#1E293B" stroke-width="2.5"></circle>
+            <!-- Placa de ateroma ocupando casi toda la luz -->
+            <path d="M 55 84 A 30 30 0 1 0 115 84 C 102 68, 68 68, 55 84 Z" fill="#FACC15" stroke="#1E293B" stroke-width="2"></path>
+            <!-- Luz residual mínima -->
+            <ellipse cx="85" cy="64" rx="14" ry="7" fill="#E11D48"></ellipse>
+            <text x="85" y="134" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#E11D48">⚠️ BLOQUEO PRECOZ</text>
+        
+            <!-- Línea divisoria -->
+            <line x1="160" y1="16" x2="160" y2="140" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="4 4"></line>
+        
+            <!-- Arteria Coronaria (3-4 mm) -->
+            <text x="235" y="22" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="10.5" font-weight="700" fill="#1E293B">ART. CORONARIA</text>
+            <text x="235" y="35" text-anchor="middle" font-family="monospace" font-size="10" font-weight="800" fill="#0369A1">Ø 3 – 4 mm</text>
+            <circle cx="235" cy="84" r="44" fill="#FDA4AF" stroke="#1E293B" stroke-width="2.5"></circle>
+            <!-- Misma placa de ateroma -->
+            <path d="M 196 92 A 40 40 0 0 0 274 92 C 254 78, 216 78, 196 92 Z" fill="#FACC15" stroke="#1E293B" stroke-width="2"></path>
+            <!-- Luz todavía amplia -->
+            <ellipse cx="235" cy="66" rx="26" ry="16" fill="#E11D48"></ellipse>
+            <text x="235" y="138" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#059669">✓ Aún sin angina</text>
+        
+            <!-- Leyenda inferior -->
+            <rect x="10" y="152" width="300" height="32" rx="8" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"></rect>
+            <text x="160" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#1E293B">
+              Placa de ateroma + Endotelio rígido = Sin presión de llenado
+            </text>
+          </svg>
+        
+          <div class="flex items-center justify-between text-xs font-bold text-rose-900">
+            <span>Afecta al flujo arterial y fosforilación eNOS</span>
+          </div>
+        </article>
+
+        <!-- TARJETA 3: FUMAR (VÍAS SANGUÍNEAS) -->
+        <article onclick="triggerCauseCard('fumar')" class="info-card info-card-clickable p-4 bg-white hover:bg-slate-100/70 cursor-pointer flex flex-col justify-between space-y-3">
+          <div class="flex flex-col items-start gap-1.5">
+            <h3 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <span>🚬</span>
+              <span>Fumar (Vías Sanguíneas)</span>
+            </h3>
+            <span class="mol-pill bg-slate-200 text-slate-900">Desacopla eNOS</span>
+          </div>
+        
+          <!-- DIAGRAMA SVG TABACO -> AGOTA BH4 + ACTIVA ROCK -->
+          <svg viewBox="0 0 320 195" class="w-full h-auto bg-slate-100 rounded-xl border-2 border-slate-800 p-1">
+            <!-- Cigarrillo / Toxinas -->
+            <rect x="65" y="10" width="190" height="32" rx="8" fill="#334155" stroke="#1E293B" stroke-width="2"></rect>
+            <text x="160" y="30" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="11.5" font-weight="700" fill="#FDE047">🚬 NICOTINA + RADICALES LIBRES</text>
+        
+            <line x1="115" y1="42" x2="82" y2="66" stroke="#E11D48" stroke-width="2.5"></line>
+            <line x1="205" y1="42" x2="238" y2="66" stroke="#E11D48" stroke-width="2.5"></line>
+        
+            <!-- Caja 1: Agotamiento de BH4 y desacoplamiento de eNOS -->
+            <rect x="10" y="68" width="146" height="74" rx="10" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"></rect>
+            <text x="83" y="85" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.8" font-weight="800" fill="#0F172A">AGOTA COFACTOR BH₄</text>
+            <text x="83" y="102" text-anchor="middle" font-family="monospace" font-size="9.5" font-weight="800" fill="#E11D48">eNOS desacoplada</text>
+            <text x="83" y="118" text-anchor="middle" font-family="monospace" font-size="9.2" font-weight="800" fill="#334155">Produce O₂•⁻ (no NO•)</text>
+            <text x="83" y="132" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.2" font-weight="600" fill="#475569">Daña vías sanguíneas</text>
+        
+            <!-- Caja 2: Nicotina sobreactiva Rho-quinasa -->
+            <rect x="164" y="68" width="146" height="74" rx="10" fill="#FFFFFF" stroke="#1E293B" stroke-width="1.8"></rect>
+            <text x="237" y="85" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.8" font-weight="800" fill="#0369A1">DESCARGA SIMPÁTICA</text>
+            <text x="237" y="103" text-anchor="middle" font-family="monospace" font-size="9.5" font-weight="800" fill="#0284C7">↑↑ Rho-quinasa</text>
+            <text x="237" y="119" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.5" font-weight="700" fill="#1E293B">Vasoconstricción fija</text>
+            <text x="237" y="132" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.2" font-weight="600" fill="#475569">Bloquea relajación</text>
+        
+            <!-- Pie -->
+            <rect x="10" y="152" width="300" height="32" rx="8" fill="#E2E8F0" stroke="#1E293B" stroke-width="1.8"></rect>
+            <text x="160" y="172" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.2" font-weight="800" fill="#0F172A">
+              Endotelio intoxicado + Arterias contraídas = Freno total
+            </text>
+          </svg>
+        
+          <div class="flex items-center justify-between text-xs font-bold text-slate-800">
+            <span>Afecta al cofactor BH₄, vías sanguíneas y ROCK</span>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Panel dinámico de diagnóstico DEBAJO de las 3 tarjetas -->
+      <div id="cause-feedback-banner" class="hidden w-full info-card p-3.5 sm:p-4 bg-amber-100 border-slate-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <p id="cause-feedback-text" class="text-xs sm:text-sm font-bold text-slate-900"></p>
+        <button type="button" onclick="document.getElementById('cause-feedback-banner').classList.add('hidden')" class="info-btn px-3 py-1.5 bg-white text-xs font-bold shrink-0 self-end sm:self-center">
+          Cerrar
+        </button>
+      </div>
+    </section>
+
+    <!-- ========================================================================
+         PARTE 4 — CONCLUSIÓN CLAVE
+         ======================================================================== -->
+    <section id="sec-conclusion" class="scroll-mt-8">
+      <div class="info-card p-5 sm:p-7 bg-gradient-to-r from-emerald-100 via-amber-50 to-rose-100">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+
+          <!-- IZQUIERDA: PENE FELIZ CON TESTÍCULOS, GAFAS DE SOL, BRAZOS SALUDANDO Y NOTAS MUSICALES ♪ ♫ -->
+          <div class="lg:col-span-5 flex flex-col items-center space-y-3">
+            <div id="happy-stage" onclick="celebrateHappy()" class="relative w-full max-w-[300px] bg-white/90 rounded-2xl border-2 border-slate-800 p-3 shadow-[4px_4px_0px_#1E293B] cursor-pointer hover:scale-[1.02] transition-transform" title="Haz clic para celebrar">
+              <!-- Contenedor de confeti -->
+              <div id="confetti-layer" class="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl"></div>
+
+              <svg id="svg-happy-char" viewBox="0 0 320 300" class="w-full h-auto overflow-visible select-none" role="img" aria-label="Pene feliz con testículos bailando">
+                <!-- Sombra suelo -->
+                <ellipse cx="160" cy="278" rx="72" ry="11" fill="#1E293B" opacity="0.18"></ellipse>
+              
+                <!-- Personaje bailando continuamente -->
+                <g id="happy-character-group">
+                  <!-- Brazos saludando -->
+                  <g id="happy-arm-l">
+                    <path d="M 116 168 Q 76 146 68 118" fill="none" stroke="#1E293B" stroke-width="4.8" stroke-linecap="round"></path>
+                    <circle cx="66" cy="114" r="9.5" fill="#FFF" stroke="#1E293B" stroke-width="2.8"></circle>
+                  </g>
+                  <g id="happy-arm-r">
+                    <path d="M 204 168 Q 244 146 252 118" fill="none" stroke="#1E293B" stroke-width="4.8" stroke-linecap="round"></path>
+                    <circle cx="254" cy="114" r="9.5" fill="#FFF" stroke="#1E293B" stroke-width="2.8"></circle>
+                  </g>
+              
+                  <!-- Testículos felices en la base -->
+                  <circle cx="128" cy="248" r="28" fill="#F9A8D4" stroke="#1E293B" stroke-width="3.6"></circle>
+                  <circle cx="192" cy="248" r="28" fill="#F9A8D4" stroke="#1E293B" stroke-width="3.6"></circle>
+              
+                  <!-- Tronco erguido -->
+                  <path d="M 118 242 L 118 112 C 118 92, 202 92, 202 112 L 202 242 Z" fill="#FB7185" stroke="#1E293B" stroke-width="3.6"></path>
+                  <path d="M 132 124 L 132 218" stroke="#FFE4E6" stroke-width="4.5" stroke-linecap="round" opacity="0.7"></path>
+              
+                  <!-- Glande sonriente -->
+                  <path d="M 112 112 C 112 62, 134 36, 160 36 C 186 36, 208 62, 208 112 C 208 124, 112 124, 112 112 Z" fill="#E11D48" stroke="#1E293B" stroke-width="3.6"></path>
+                  <path d="M 114 113 Q 160 122 206 113" fill="none" stroke="#1E293B" stroke-width="2.8"></path>
+              
+                  <!-- Gafas de sol festivas -->
+                  <rect x="129" y="66" width="26" height="15" rx="4" fill="#0F172A"></rect>
+                  <rect x="165" y="66" width="26" height="15" rx="4" fill="#0F172A"></rect>
+                  <line x1="155" y1="72" x2="165" y2="72" stroke="#0F172A" stroke-width="3"></line>
+                  <line x1="134" y1="69" x2="140" y2="78" stroke="#38BDF8" stroke-width="2"></line>
+                  <line x1="170" y1="69" x2="176" y2="78" stroke="#38BDF8" stroke-width="2"></line>
+              
+                  <!-- Sonrisa radiante -->
+                  <path d="M 141 90 Q 160 110 179 90 Z" fill="#FFF" stroke="#1E293B" stroke-width="2.4" stroke-linejoin="round"></path>
+              
+                  <!-- Notas musicales -->
+                  <text x="64" y="64" font-size="22" font-weight="700" fill="#059669">♪</text>
+                  <text x="236" y="62" font-size="22" font-weight="700" fill="#E11D48">♫</text>
+                </g>
+              </svg>
+            </div>
+
+          </div>
+
+          <!-- DERECHA: MENSAJE CLÍNICO Y DIAGRAMA SVG EN 3 PASOS DE PREVENCIÓN TEMPRANA -->
+          <div class="lg:col-span-7 space-y-4">
+            <h2 class="text-2xl sm:text-4xl font-bold text-slate-900 leading-tight">
+              La disfunción eréctil es una <span class="text-[#E11D48]">señal de alarma</span> que nos puede ayudar a detectar problemas de salud
+            </h2>
+
+            <!-- DIAGRAMA SVG EN 3 PASOS DE PREVENCIÓN TEMPRANA -->
+            <div class="p-3 rounded-xl bg-white border-2 border-slate-800">
+              <svg viewBox="0 0 600 145" class="w-full h-auto bg-slate-50 rounded-lg border border-slate-300 p-1" role="img" aria-label="Diagrama en 3 pasos de prevención temprana cardiovascular y metabólica">
+                <!-- Paso 1: Centinela vascular -->
+                <rect x="8" y="14" width="166" height="116" rx="12" fill="#FFE4E6" stroke="#1E293B" stroke-width="2" />
+                <text x="91" y="38" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12.5" font-weight="700" fill="#9F1239">
+                  1. Centinela vascular
+                </text>
+                <text x="91" y="58" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">
+                  Arterias cavernosas (1–2 mm)
+                </text>
+                <text x="91" y="74" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">
+                  detectan antes caída de eNOS,
+                </text>
+                <text x="91" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">
+                  déficit de NO• y placa inicial
+                </text>
+                <rect x="26" y="100" width="130" height="20" rx="6" fill="#E11D48" />
+                <text x="91" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#FFFFFF">
+                  Primer aviso clínico
+                </text>
+
+                <!-- Flecha 1 -> 2 con etiqueta 2–5 años -->
+                <line x1="176" y1="72" x2="228" y2="72" stroke="#D97706" stroke-width="3" class="flow-line" />
+                <polygon points="228,66 238,72 228,78" fill="#D97706" />
+                <rect x="178" y="45" width="56" height="18" rx="5" fill="#FEF3C7" stroke="#1E293B" stroke-width="1.4" />
+                <text x="206" y="57" text-anchor="middle" font-family="Inter, sans-serif" font-size="8.8" font-weight="800" fill="#92400E">
+                  2–5 años
+                </text>
+
+                <!-- Paso 2: Ventana preventiva -->
+                <rect x="240" y="14" width="166" height="116" rx="12" fill="#FEF3C7" stroke="#1E293B" stroke-width="2" />
+                <text x="323" y="38" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12.5" font-weight="700" fill="#92400E">
+                  2. Ventana preventiva
+                </text>
+                <text x="323" y="58" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">
+                  Margen clave antes de que
+                </text>
+                <text x="323" y="74" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">
+                  se obstruyan las coronarias
+                </text>
+                <text x="323" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#1E293B">
+                  (3–4 mm) o surja diabetes
+                </text>
+                <rect x="258" y="100" width="130" height="20" rx="6" fill="#D97706" />
+                <text x="323" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#FFFFFF">
+                  Evaluación médica
+                </text>
+
+                <!-- Flecha 2 -> 3 -->
+                <line x1="408" y1="72" x2="432" y2="72" stroke="#059669" stroke-width="3" class="flow-line" />
+                <polygon points="432,66 442,72 432,78" fill="#059669" />
+
+                <!-- Paso 3: Prevención -->
+                <rect x="444" y="14" width="148" height="116" rx="12" fill="#D1FAE5" stroke="#1E293B" stroke-width="2" />
+                <text x="518" y="38" text-anchor="middle" font-family="Fredoka, sans-serif" font-size="12.5" font-weight="700" fill="#065F46">
+                  3. Prevención
+                </text>
+                <text x="518" y="58" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.2" font-weight="700" fill="#1E293B">
+                  • Ejercicio aeróbico (↑ eNOS)
+                </text>
+                <text x="518" y="74" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.2" font-weight="700" fill="#1E293B">
+                  • Control glucémico (↓ ROS)
+                </text>
+                <text x="518" y="90" text-anchor="middle" font-family="Inter, sans-serif" font-size="9.2" font-weight="700" fill="#1E293B">
+                  • Abandono tabaco (BH4)
+                </text>
+                <rect x="458" y="100" width="120" height="20" rx="6" fill="#059669" />
+                <text x="518" y="114" text-anchor="middle" font-family="Inter, sans-serif" font-size="9" font-weight="800" fill="#FFFFFF">
+                  Salud vascular integral
+                </text>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       LÓGICA JAVASCRIPT DE LA INFOGRAFÍA (ANATOMÍA, SONIDOS E INTERACTIVIDAD)
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       1. CONFIGURACIÓN ANATÓMICA EXACTA DEL PENE Y EJE DE ROTACIÓN
+       ========================================================================== */
+    const CONFIG_ANATOMIA = {
+      pivotX: 145, // Coordenada X fija en la base del pene (entre los testículos)
+      pivotY: 125, // Coordenada Y fija en la base del pene
+      sec2PivotX: 279, // Pivote simétrico a la derecha para la Parte 2
+      sec2PivotY: 125,
+      // Ángulos en grados desde el estado colgando (0° vertical hacia abajo)
+      angulos: [
+        0,     // Estado 0: basal flácido colgando
+        -45,   // Estado 1: señal NANC / semi-erección inicial
+        -88,   // Estado 2: NOS -> NO• / erección horizontal firme
+        -128   // Estado 3: GC -> GMPc / erección máxima completa
+      ]
+    };
+
+    /* ==========================================================================
+       2. CONFIGURACIÓN DE SONIDOS DE LA INFOGRAFÍA (SIEMPRE ACTIVOS)
+       ========================================================================== */
+    const CONFIG_SONIDOS = {
+      clickGeneral: "https://www.myinstants.com/media/sounds/chiquito_de_la_calzada_grito.mp3",
+      ereccionPaso1: "https://www.myinstants.com/media/sounds/chiquito-de-la-calzada-pero-que-esta-haciendo.mp3",
+      ereccionPaso2: "https://www.myinstants.com/media/sounds/eres-un-torpedo.mp3",
+      ereccionPaso3: "https://www.myinstants.com/media/sounds/chiquito_de_la_calzada_al_ataque_amPwQBn.mp3",
+      flacidez: "https://www.myinstants.com/media/sounds/uno-que-nacio-despues-de-los-dolores.mp3",
+      inhibidorPDE5: "https://www.myinstants.com/media/sounds/frase-celebre-del-chiquito-de-la-calza360p_h.mp3",
+      causaPatologia: "https://www.myinstants.com/media/sounds/que-pasa-chiquito.mp3",
+      causa2:"https://www.myinstants.com/media/sounds/el-chiquito-de-la-calzada-fidericorl.mp3",
+      causa3:"https://www.myinstants.com/media/sounds/es-un-fistro-diodenal.mp3",
+      peneFeliz: "https://github.com/borhw/putamierda/raw/refs/heads/main/conde.mp3"
+    };
+
+    class MotorAudioInfografia {
+      constructor() {
+        this.ctx = null;
+        this.currentAudio = null;
+      }
+
+      ensureCtx() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === "suspended") {
+          this.ctx.resume().catch(() => {});
+        }
+      }
+
+      play(key) {
+        const src = CONFIG_SONIDOS[key];
+        if (src && src.trim() !== "") {
+          try {
+            if (this.currentAudio) {
+              this.currentAudio.pause();
+              this.currentAudio.currentTime = 0;
+            }
+            const audio = new Audio(src);
+            this.currentAudio = audio;
+            audio.volume = key === "inhibidorPDE5" ? 1.0 : 1.0;
+            audio.addEventListener("error", () => this.playSynth(key), { once: true });
+            audio.play().catch(() => this.playSynth(key));
+            return;
+          } catch (e) {
+            // Fallback al sintetizador
+          }
+        }
+        this.playSynth(key);
+      }
+
+      playSynth(key) {
+        try {
+          this.ensureCtx();
+          if (!this.ctx) return;
+          const now = this.ctx.currentTime;
+
+          const tone = (freq1, freq2, dur, type = "sine", delay = 0, gainVal = 0.14) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq1, now + delay);
+            if (freq2) {
+              osc.frequency.exponentialRampToValueAtTime(freq2, now + delay + dur);
+            }
+            gain.gain.setValueAtTime(gainVal, now + delay);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + delay + dur);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(now + delay);
+            osc.stop(now + delay + dur);
+          };
+
+          switch (key) {
+            case "ereccionPaso1":
+              tone(330, 495, 0.22, "triangle", 0, 0.15);
+              break;
+            case "ereccionPaso2":
+              tone(440, 660, 0.28, "triangle", 0, 0.16);
+              break;
+            case "ereccionPaso3":
+              tone(523.25, 659.25, 0.18, "triangle", 0, 0.16);
+              tone(659.25, 1046.5, 0.36, "triangle", 0.12, 0.18);
+              break;
+            case "flacidez":
+              tone(420, 145, 0.42, "sawtooth", 0, 0.12);
+              break;
+            case "inhibidorPDE5":
+              tone(587.33, 880, 0.24, "sine", 0, 0.24);
+              break;
+            case "causaPatologia":
+            case "causa2":
+            case "causa3":
+              tone(220, 155, 0.25, "square", 0, 0.09);
+              break;
+            case "peneFeliz":
+              tone(523.25, null, 0.13, "triangle", 0, 0.15);
+              tone(659.25, null, 0.13, "triangle", 0.11, 0.15);
+              tone(783.99, null, 0.13, "triangle", 0.22, 0.15);
+              tone(1046.5, 1174.66, 0.35, "triangle", 0.33, 0.18);
+              break;
+            default:
+              tone(520, 620, 0.08, "sine", 0, 0.09);
+              break;
+          }
+        } catch (e) {
+          // Ignorar si el navegador exige interacción previa
+        }
+      }
+    }
+
+    const audioLab = new MotorAudioInfografia();
+
+    /* ==========================================================================
+       3. CONTROL EXCLUSIVO DE LOS 3 EPÍGRAFES Y ROTACIÓN DEL PENE (PARTE 1)
+       ========================================================================== */
+    const epigrafes = Array.from(document.querySelectorAll(".epigrafe-item"));
+    const shaftPivot = document.getElementById("penis-shaft-pivot");
+    const shaftEngorge = document.getElementById("penis-shaft-engorge");
+    const captionEl = document.getElementById("erection-caption");
+    const moleculesGroup = document.getElementById("erection-molecules");
+    const cavL = document.getElementById("cavernosa-l");
+    const cavR = document.getElementById("cavernosa-r");
+    const bodyPath = document.getElementById("penis-body-path");
+    const rootBulb = document.getElementById("penis-root-bulb");
+    const seamCover = document.getElementById("penis-seam-cover");
+    const glansPath = document.getElementById("penis-glans");
+
+    function setErectionState(stateIndex) {
+      const deg = CONFIG_ANATOMIA.angulos[stateIndex] ?? 0;
+      shaftPivot.setAttribute("transform", `rotate(${deg}, ${CONFIG_ANATOMIA.pivotX}, ${CONFIG_ANATOMIA.pivotY})`);
+
+      const scaleW = 1 + stateIndex * 0.045;
+      const scaleL = 1 + stateIndex * 0.035;
+      shaftEngorge.style.transformOrigin = `${CONFIG_ANATOMIA.pivotX}px ${CONFIG_ANATOMIA.pivotY}px`;
+      shaftEngorge.style.transform = `scale(${scaleW}, ${scaleL})`;
+
+      const statesInfo = [
+        {
+          caption: "Tono simpático basal (sin NO•)",
+          fill: "url(#gradFlaccid)",
+          glans: "#F472B6",
+          cavOpacity: "0.22",
+          molOpacity: "0"
+        },
+        {
+          caption: "Impulso cerebral en nervios cavernosos",
+          fill: "url(#gradFlaccid)",
+          glans: "#FB7185",
+          cavOpacity: "0.45",
+          molOpacity: "0.45"
+        },
+        {
+          caption: "nNOS y eNOS inundan el tejido de NO•",
+          fill: "url(#gradErect)",
+          glans: "#F43F5E",
+          cavOpacity: "0.75",
+          molOpacity: "0.8"
+        },
+        {
+          caption: "sGC dispara GMPc: veno-oclusión completa",
+          fill: "url(#gradErect)",
+          glans: "#E11D48",
+          cavOpacity: "1",
+          molOpacity: "1"
+        }
+      ];
+
+      const info = statesInfo[stateIndex];
+      captionEl.textContent = info.caption;
+      bodyPath.setAttribute("fill", info.fill);
+      rootBulb.setAttribute("fill", info.fill);
+      seamCover.setAttribute("fill", info.fill);
+      glansPath.setAttribute("fill", info.glans);
+      cavL.setAttribute("opacity", info.cavOpacity);
+      cavR.setAttribute("opacity", info.cavOpacity);
+      moleculesGroup.setAttribute("opacity", info.molOpacity);
+
+      [0, 1, 2, 3].forEach((idx) => {
+        const expr = document.getElementById(`expr-${idx}`);
+        if (expr) expr.setAttribute("opacity", idx === stateIndex ? "1" : "0");
+      });
+
+      if (stateIndex === 3) {
+        shaftPivot.classList.add("erect-glow");
+      } else {
+        shaftPivot.classList.remove("erect-glow");
+      }
+
+      if (stateIndex === 1) audioLab.play("ereccionPaso1");
+      else if (stateIndex === 2) audioLab.play("ereccionPaso2");
+      else if (stateIndex === 3) audioLab.play("ereccionPaso3");
+      else audioLab.play("clickGeneral");
+
+      if (window.ChiquitoDoc) {
+        const mapaPasos = { 0: "basal", 1: "cerebro", 2: "nos", 3: "gc" };
+        window.ChiquitoDoc.hablar(mapaPasos[stateIndex]);
+      }
+    }
+
+    epigrafes.forEach((item) => {
+      const btn = item.querySelector(".epigrafe-trigger");
+      btn.addEventListener("click", () => {
+        const wasOpen = item.classList.contains("open");
+        const step = Number(item.dataset.step);
+
+        epigrafes.forEach((el) => {
+          el.classList.remove("open");
+          el.querySelector(".epigrafe-trigger").setAttribute("aria-expanded", "false");
+        });
+
+        if (!wasOpen) {
+          item.classList.add("open");
+          btn.setAttribute("aria-expanded", "true");
+          setErectionState(step);
+        } else {
+          setErectionState(0);
+        }
+      });
+    });
+
+    document.getElementById("btn-reset-erection").addEventListener("click", () => {
+      epigrafes.forEach((item) => {
+        item.classList.remove("open");
+        item.querySelector(".epigrafe-trigger").setAttribute("aria-expanded", "false");
+      });
+      setErectionState(0);
+    });
+
+    /* ==========================================================================
+       4. INTERACTIVIDAD PARTE 2 (VUELTA AL BLANDIBLÚ Y DIAGRAMA PDE5)
+       ========================================================================== */
+    let pde5Blocked = false;
+    let currentSec2Mode = "erect"; // "erect" | "pde5" | "ipde5" | "rock"
+
+    const sec2Pivot = document.getElementById("sec2-shaft-pivot");
+    const sec2Engorge = document.getElementById("sec2-shaft-engorge");
+    const sec2Caption = document.getElementById("flaccid-caption");
+    const sec2Molecules = document.getElementById("sec2-molecules");
+    const sec2CavL = document.getElementById("sec2-cavernosa-l");
+    const sec2CavR = document.getElementById("sec2-cavernosa-r");
+    const sec2BodyPath = document.getElementById("sec2-body-path");
+    const sec2RootBulb = document.getElementById("sec2-root-bulb");
+    const sec2SeamCover = document.getElementById("sec2-seam-cover");
+    const sec2Glans = document.getElementById("sec2-glans");
+
+    /* Controles visuales del diagrama PDE5 */
+    function updatePDE5DiagramState(mode) {
+      const pacmanBody = document.getElementById("pde5-pacman-body");
+      const closedMouth = document.getElementById("pde5-closed-mouth");
+      const cgmpNode = document.getElementById("pde5-cgmp-node");
+      const cgmpCircle = document.getElementById("pde5-cgmp-circle");
+      const cgmpStatus = document.getElementById("pde5-cgmp-status");
+      const arrowTo5Gmp = document.getElementById("pde5-to-5gmp-arrow");
+      const box5Gmp = document.getElementById("pde5-5gmp-box");
+      const text5Gmp = document.getElementById("pde5-5gmp-text");
+      const viagraBody = document.getElementById("viagra-pill-body");
+      const viagraLabel = document.getElementById("viagra-pill-label");
+      const viagraLink = document.getElementById("viagra-block-link");
+
+      const CLOSED_MOUTH_PATH = "M 205 68 L 249 68 A 44 44 0 1 0 249 68.1 Z";
+      const OPEN_MOUTH_PATH = "M 205 68 L 243 44 A 44 44 0 1 0 243 92 Z";
+
+      if (mode === "pde5") {
+        // Pac-Man activo: ámbar (#F59E0B), boca abierta envolviendo al GMPc
+        pacmanBody.setAttribute("d", OPEN_MOUTH_PATH);
+        pacmanBody.setAttribute("fill", "#F59E0B");
+        closedMouth.setAttribute("opacity", "0");
+
+        // GMPc comido por Pac-Man: desplazado dentro de la boca (-46px), rojo (#E11D48) e inactivo
+        cgmpNode.setAttribute("transform", "translate(-46, 0)");
+        cgmpCircle.setAttribute("fill", "#E11D48");
+        cgmpStatus.textContent = "(inactivo)";
+        cgmpStatus.setAttribute("fill", "#FFE4E6");
+
+        // Flecha verde visible desde GMPc hacia 5'-GMP
+        arrowTo5Gmp.setAttribute("opacity", "1");
+
+        // Bloque 5'-GMP verde activo
+        box5Gmp.setAttribute("fill", "#10B981");
+        text5Gmp.setAttribute("fill", "#FFFFFF");
+
+        // Viagra en reposo
+        viagraBody.setAttribute("fill", "#DBEAFE");
+        viagraLabel.setAttribute("fill", "#1E3A8A");
+        viagraLink.setAttribute("opacity", "0.28");
+      } else if (mode === "ipde5") {
+        // Viagra bloqueando PDE5: Pac-Man azul (#38BDF8), boca cerrada
+        pacmanBody.setAttribute("d", CLOSED_MOUTH_PATH);
+        pacmanBody.setAttribute("fill", "#38BDF8");
+        closedMouth.setAttribute("opacity", "1");
+
+        // GMPc avanza fuera de la boca hacia la derecha (+4px), verde (#10B981) y activo
+        cgmpNode.setAttribute("transform", "translate(4, 0)");
+        cgmpCircle.setAttribute("fill", "#10B981");
+        cgmpStatus.textContent = "(activo)";
+        cgmpStatus.setAttribute("fill", "#ECFDF5");
+
+        // Flecha oculta cuando GMPc está activo
+        arrowTo5Gmp.setAttribute("opacity", "0");
+
+        // Bloque 5'-GMP gris claro
+        box5Gmp.setAttribute("fill", "#E2E8F0");
+        text5Gmp.setAttribute("fill", "#475569");
+
+        // Viagra iluminada
+        viagraBody.setAttribute("fill", "#2563EB");
+        viagraLabel.setAttribute("fill", "#FFFFFF");
+        viagraLink.setAttribute("opacity", "1");
+      } else {
+        // Estado erecto / basal: Pac-Man gris claro (#CBD5E1), boca cerrada
+        pacmanBody.setAttribute("d", CLOSED_MOUTH_PATH);
+        pacmanBody.setAttribute("fill", "#CBD5E1");
+        closedMouth.setAttribute("opacity", "1");
+
+        // GMPc a la derecha del Pac-Man, verde (#10B981) y activo
+        cgmpNode.setAttribute("transform", "translate(0, 0)");
+        cgmpCircle.setAttribute("fill", "#10B981");
+        cgmpStatus.textContent = "(activo)";
+        cgmpStatus.setAttribute("fill", "#ECFDF5");
+
+        // Flecha oculta cuando GMPc está activo
+        arrowTo5Gmp.setAttribute("opacity", "0");
+
+        // Bloque 5'-GMP gris claro
+        box5Gmp.setAttribute("fill", "#E2E8F0");
+        text5Gmp.setAttribute("fill", "#475569");
+
+        // Viagra en reposo
+        viagraBody.setAttribute("fill", "#DBEAFE");
+        viagraLabel.setAttribute("fill", "#1E3A8A");
+        viagraLink.setAttribute("opacity", "0.28");
+      }
+    }
+
+    function updateSec2Visuals(stateKey) {
+      currentSec2Mode = stateKey;
+
+      const configs = {
+        erect: {
+          deg: 128,
+          scaleW: 1.135,
+          scaleL: 1.105,
+          fill: "url(#gradErect)",
+          glans: "#E11D48",
+          cavOpacity: "1",
+          molOpacity: "1",
+          expr: "erect",
+          glow: true,
+          caption: "Erección máxima (GMPc elevado y veno-oclusión)"
+        },
+        pde5: {
+          deg: 52,
+          scaleW: 1.055,
+          scaleL: 1.045,
+          fill: "url(#gradErect)",
+          glans: "#FB7185",
+          cavOpacity: "0.52",
+          molOpacity: "0.3",
+          expr: "detumescence",
+          glow: false,
+          caption: "PDE5 hidroliza GMPc → 5'-GMP: comienza la detumescencia"
+        },
+        ipde5: {
+          // Exactamente la misma posición y apariencia que el estado erecto inicial
+          deg: 128,
+          scaleW: 1.135,
+          scaleL: 1.105,
+          fill: "url(#gradErect)",
+          glans: "#E11D48",
+          cavOpacity: "1",
+          molOpacity: "1",
+          expr: "erect",
+          glow: true,
+          caption: "Viagra (sildenafilo) inhibe la PDE5: el GMPc se mantiene activo"
+        },
+        rock: {
+          deg: 0,
+          scaleW: 1,
+          scaleL: 1,
+          fill: "url(#gradFlaccid)",
+          glans: "#F472B6",
+          cavOpacity: "0.22",
+          molOpacity: "0",
+          expr: "flaccid",
+          glow: false,
+          caption: "Rho-quinasa (ROCK) activa: flacidez basal y contracción vascular"
+        }
+      };
+
+      const cfg = configs[stateKey] || configs.erect;
+
+      sec2Pivot.setAttribute("transform", `rotate(${cfg.deg}, ${CONFIG_ANATOMIA.sec2PivotX}, ${CONFIG_ANATOMIA.sec2PivotY})`);
+      sec2Engorge.style.transformOrigin = `${CONFIG_ANATOMIA.sec2PivotX}px ${CONFIG_ANATOMIA.sec2PivotY}px`;
+      sec2Engorge.style.transform = `scale(${cfg.scaleW}, ${cfg.scaleL})`;
+
+      sec2BodyPath.setAttribute("fill", cfg.fill);
+      sec2RootBulb.setAttribute("fill", cfg.fill);
+      sec2SeamCover.setAttribute("fill", cfg.fill);
+      sec2Glans.setAttribute("fill", cfg.glans);
+      sec2CavL.setAttribute("opacity", cfg.cavOpacity);
+      sec2CavR.setAttribute("opacity", cfg.cavOpacity);
+      sec2Molecules.setAttribute("opacity", cfg.molOpacity);
+      sec2Caption.textContent = cfg.caption;
+
+      ["erect", "detumescence", "flaccid"].forEach((name) => {
+        const el = document.getElementById(`sec2-expr-${name}`);
+        if (el) el.setAttribute("opacity", name === cfg.expr ? "1" : "0");
+      });
+
+      if (cfg.glow) {
+        sec2Pivot.classList.add("erect-glow");
+      } else {
+        sec2Pivot.classList.remove("erect-glow");
+      }
+
+      if (stateKey === "pde5") updatePDE5DiagramState("pde5");
+      else if (stateKey === "ipde5") updatePDE5DiagramState("ipde5");
+      else updatePDE5DiagramState("erect");
+    }
+
+    function triggerFlaccidAction(mode) {
+      pde5Blocked = false;
+      const btn = document.getElementById("btn-toggle-ipde5");
+      if (btn) btn.textContent = "Bloquear con Viagra (sildenafilo)";
+
+      if (mode === "pde5") {
+        updateSec2Visuals("pde5");
+        audioLab.play("flacidez");
+        if (window.ChiquitoDoc) window.ChiquitoDoc.hablar("pde5");
+      } else if (mode === "rock") {
+        updateSec2Visuals("rock");
+        audioLab.play("clickGeneral");
+        if (window.ChiquitoDoc) window.ChiquitoDoc.hablar("rho");
+      }
+    }
+
+    function togglePDE5Inhibitor() {
+      pde5Blocked = !pde5Blocked;
+      const btn = document.getElementById("btn-toggle-ipde5");
+
+      if (pde5Blocked) {
+        if (btn) btn.textContent = "Quitar Viagra (sildenafilo)";
+        updateSec2Visuals("ipde5");
+        audioLab.play("inhibidorPDE5");
+        if (window.ChiquitoDoc) window.ChiquitoDoc.hablar("inhibidor_pde5");
+      } else {
+        if (btn) btn.textContent = "Bloquear con Viagra (sildenafilo)";
+        updateSec2Visuals("pde5");
+        audioLab.play("flacidez");
+        if (window.ChiquitoDoc) window.ChiquitoDoc.hablar("pde5");
+      }
+    }
+
+    document.getElementById("btn-reset-flaccid").addEventListener("click", () => {
+      pde5Blocked = false;
+      const btn = document.getElementById("btn-toggle-ipde5");
+      if (btn) btn.textContent = "Bloquear con Viagra (sildenafilo)";
+      updateSec2Visuals("erect");
+      audioLab.play("ereccionPaso3");
+      if (window.ChiquitoDoc) window.ChiquitoDoc.hablar("gc");
+    });
+
+    /* ==========================================================================
+       5. INTERACTIVIDAD PARTE 3 (CAUSAS DE DISFUNCIÓN ERÉCTIL)
+       ========================================================================== */
+    function triggerCauseCard(cause) {
+      const banner = document.getElementById("cause-feedback-banner");
+      const text = document.getElementById("cause-feedback-text");
+
+      const messages = {
+        diabetes: "Simulación diabetes: los radicales superóxido (O₂•⁻) neutralizan el NO• convirtiéndolo en peroxinitrito (ONOO⁻), oxidan el cofactor BH4 de la NOS y dañan los axones nNOS.",
+        cardio: "Simulación cardiovascular: las arterias cavernosas (1–2 mm) sufren bloqueo precoz mucho antes que las coronarias (3–4 mm); sin flujo adecuado, la enzima eNOS apenas produce NO•.",
+        fumar: "Simulación tabaco: la nicotina y los radicales libres agotan el cofactor BH4 desacoplando la eNOS en las vías sanguíneas y disparan la descarga simpática de Rho-quinasa."
+      };
+
+      const soundKeys = {
+        diabetes: "causaPatologia",
+        cardio: "causa2",
+        fumar: "causa3"
+      };
+
+      text.textContent = messages[cause] || "";
+      banner.classList.remove("hidden");
+      audioLab.play(soundKeys[cause] || "causaPatologia");
+
+      if (window.ChiquitoDoc) {
+        window.ChiquitoDoc.hablar(cause);
+      }
+    }
+
+    /* ==========================================================================
+       6. INTERACTIVIDAD PARTE 4 (PENE FELIZ BAILANDO + CONFETI)
+       ========================================================================== */
+    function celebrateHappy() {
+      const charGroup = document.getElementById("happy-character-group");
+      const confettiLayer = document.getElementById("confetti-layer");
+
+      charGroup.classList.remove("do-party");
+      void charGroup.offsetWidth;
+      charGroup.classList.add("do-party");
+      audioLab.play("peneFeliz");
+
+      if (window.ChiquitoDoc) {
+        window.ChiquitoDoc.hablar("conclusion");
+      }
+
+      confettiLayer.innerHTML = "";
+      const colors = ["#E11D48", "#0284C7", "#059669", "#F59E0B", "#8B5CF6"];
+      for (let i = 0; i < 20; i++) {
+        const bit = document.createElement("span");
+        const angle = (Math.PI * 2 * i) / 20;
+        const dist = 65 + Math.random() * 65;
+        bit.className = "confetti-bit absolute left-1/2 top-1/2 w-2.5 h-2.5 rounded-xs";
+        bit.style.backgroundColor = colors[i % colors.length];
+        bit.style.setProperty("--tx", `${Math.cos(angle) * dist}px`);
+        bit.style.setProperty("--ty", `${Math.sin(angle) * dist - 20}px`);
+        confettiLayer.appendChild(bit);
+      }
+    }
+  </script>
+
+  <!-- ==========================================================================
+       ESTÉTICA Y SVG ORIGINAL DEL DR. CHIQUITO DE LA CALZADA (#dr-chiquito-root)
+       ========================================================================== -->
+  <style>
+    #dr-chiquito-root {
+      position: fixed;
+      bottom: 14px;
+      right: 14px;
+      z-index: 99999;
+      background: transparent !important;
+      pointer-events: none;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: flex-end;
+      gap: 12px;
+      max-width: calc(100vw - 24px);
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      box-sizing: border-box;
+    }
+
+    #dr-chiquito-root *,
+    #dr-chiquito-root *::before,
+    #dr-chiquito-root *::after {
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 640px) {
+      #dr-chiquito-root {
+        bottom: 10px;
+        right: 10px;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+        max-width: calc(100vw - 20px);
+      }
+    }
+
+    #chiquito-bubble {
+      pointer-events: auto;
+      position: relative;
+      width: 345px;
+      max-width: calc(100vw - 24px);
+      background: #FFFFFF;
+      color: #0F172A;
+      border: 3px solid #0D0D0D;
+      border-radius: 18px;
+      padding: 12px 14px;
+      transition: opacity 0.22s ease, transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    #chiquito-bubble::after {
+      content: "";
+      position: absolute;
+      right: -14px;
+      bottom: 64px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 10px 0 10px 14px;
+      border-color: transparent transparent transparent #0D0D0D;
+    }
+
+    #chiquito-bubble::before {
+      content: "";
+      position: absolute;
+      right: -10px;
+      bottom: 66px;
+      z-index: 1;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 8px 0 8px 11px;
+      border-color: transparent transparent transparent #FFFFFF;
+    }
+
+    @media (max-width: 640px) {
+      #chiquito-bubble {
+        width: 100%;
+        padding: 10px 12px;
+      }
+      #chiquito-bubble::after {
+        right: 70px;
+        bottom: -14px;
+        border-width: 14px 10px 0 10px;
+        border-color: #0D0D0D transparent transparent transparent;
+      }
+      #chiquito-bubble::before {
+        right: 72px;
+        bottom: -10px;
+        border-width: 11px 8px 0 8px;
+        border-color: #FFFFFF transparent transparent transparent;
+      }
+    }
+
+    .chiquito-bubble-header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      margin-bottom: 6px;
+      padding-bottom: 6px;
+      border-bottom: 2px dashed #CBD5E1;
+    }
+
+    .chiquito-title-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #9F1239;
+      background: #FFE4E6;
+      border: 1.5px solid #0D0D0D;
+      border-radius: 8px;
+      padding: 2px 8px;
+      line-height: 1.2;
+    }
+
+    #chiquito-speech-text {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #1E293B;
+      font-weight: 500;
+      min-height: 58px;
+      max-height: 155px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+
+    #chiquito-speech-text strong {
+      color: #0F172A;
+      font-weight: 800;
+      background: #FEF9C3;
+      padding: 0 3px;
+      border-radius: 3px;
+    }
+
+    #chiquito-stage-wrap {
+      pointer-events: auto;
+      position: relative;
+      width: 224px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      user-select: none;
+    }
+
+    @media (max-width: 640px) {
+      #chiquito-stage-wrap {
+        width: 168px;
+      }
+    }
+
+    #chiquito-avatar-slot {
+      width: 100%;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 3px solid #0D0D0D;
+      background: #FFFFFF;
+      box-shadow: 5px 5px 0px #0D0D0D;
+      cursor: pointer;
+      transition: transform 0.18s ease;
+    }
+
+    #chiquito-avatar-slot:hover {
+      transform: translateY(-2px);
+    }
+
+    #chiquito-avatar-slot svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    #chiquito-name-label {
+      margin-top: 0;
+      margin-bottom: 10px;
+      background: #0D0D0D;
+      color: #FFFFFF;
+      font-family: 'Fredoka', cursive, sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      letter-spacing: 0.02em;
+      padding: 3px 14px;
+      border-radius: 999px;
+      border: 2px solid #0D0D0D;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    @keyframes chiquiIdleBreath {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-1.5px) rotate(-0.6deg); }
+    }
+
+    #chiqui-cabeza {
+      transform-origin: 185px 255px;
+      animation: chiquiIdleBreath 3.2s ease-in-out infinite;
+    }
+
+    @keyframes chiquiHeadTalk {
+      0%, 100% { transform: rotate(-2.4deg) translateY(0px); }
+      25% { transform: rotate(1.2deg) translateY(-3px); }
+      50% { transform: rotate(2.8deg) translateY(0px); }
+      75% { transform: rotate(-1.1deg) translateY(-2.5px); }
+    }
+
+    #dr-chiquito-root.is-talking #chiqui-cabeza {
+      animation: chiquiHeadTalk 0.52s ease-in-out infinite;
+    }
+
+    @keyframes chiquiBrowTalk {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-3.5px); }
+    }
+
+    #dr-chiquito-root.is-talking #chiqui-cejas {
+      animation: chiquiBrowTalk 0.4s ease-in-out infinite;
+    }
+  </style>
+
+  <!-- CONTENEDOR RAÍZ FLOTANTE DEL DR. CHIQUITO -->
+  <aside id="dr-chiquito-root" aria-label="Asistente médico Dr. Chiquito de la Calzada">
+
+    <!-- 1. BOCADILLO DE CÓMIC -->
+    <div id="chiquito-bubble" role="region" aria-live="polite">
+      <div class="chiquito-bubble-header">
+        <span id="chiquito-topic-title" class="chiquito-title-badge">Laboratorio del Dr. Chiquito</span>
+      </div>
+
+      <p id="chiquito-speech-text"></p>
+    </div>
+
+    <!-- 2. RETRATO DE BUSTO ESTILO CÓMIC DEL DR. CHIQUITO -->
+    <div id="chiquito-stage-wrap">
+      <div id="chiquito-name-label">Dr. Chiquito</div>
+      
+      <div id="chiquito-avatar-slot" title="Haz clic en el Dr. Chiquito para volver a escuchar la explicación">
+        <svg
+          id="chiquito-svg"
+          viewBox="0 0 420 310"
+          xmlns="http://www.w3.org/2000/svg"
+          role="img"
+          aria-label="Retrato estilo cómic del Dr. Chiquito de la Calzada con bata blanca y bolígrafos en el bolsillo"
+        >
+          <rect x="0" y="0" width="420" height="310" fill="#FFFFFF" />
+
+          <g id="chiqui-bata">
+            <path
+              d="M 118 242 L 138 292 L 182 310 L 216 250 L 185 232 Z"
+              fill="#F8A3B2"
+              stroke="#0D0D0D"
+              stroke-width="3.2"
+              stroke-linejoin="round"
+            />
+            <g stroke="#0D0D0D" stroke-width="1.4" stroke-linecap="round">
+              <line x1="138" y1="264" x2="162" y2="274" />
+              <line x1="142" y1="270" x2="165" y2="279" />
+              <line x1="147" y1="276" x2="167" y2="284" />
+              <line x1="152" y1="282" x2="168" y2="289" />
+            </g>
+
+            <path
+              d="M 6 310 C 16 286, 36 266, 62 254 L 106 232 L 134 282 L 172 310 L 214 252 L 234 198 C 288 212, 348 228, 386 250 C 404 260, 415 282, 422 310 Z"
+              fill="#FFFFFF"
+              stroke="#0D0D0D"
+              stroke-width="3.6"
+              stroke-linejoin="round"
+            />
+
+            <polygon
+              points="103,233 90,275 126,286 112,310 144,310 128,274"
+              fill="#FFFFFF"
+              stroke="#0D0D0D"
+              stroke-width="3.2"
+              stroke-linejoin="round"
+            />
+
+            <polygon
+              points="234,196 258,262 222,271 245,310 182,310 215,253"
+              fill="#FFFFFF"
+              stroke="#0D0D0D"
+              stroke-width="3.4"
+              stroke-linejoin="round"
+            />
+
+            <path d="M 45 276 Q 42 292 43 309" fill="none" stroke="#0D0D0D" stroke-width="2" stroke-linecap="round" />
+            <path d="M 353 246 Q 344 274 338 308" fill="none" stroke="#0D0D0D" stroke-width="2" stroke-linecap="round" />
+            <path d="M 386 251 Q 368 272 356 308" fill="none" stroke="#0D0D0D" stroke-width="2.4" stroke-linecap="round" />
+
+            <g id="chiqui-boligrafos">
+              <path
+                d="M 268 296 L 268 275 C 268 271, 279 271, 279 275 L 279 296 Z"
+                fill="#FFFFFF"
+                stroke="#0D0D0D"
+                stroke-width="2.6"
+              />
+              <rect x="271.5" y="264" width="4.5" height="9" rx="1.5" fill="#FFFFFF" stroke="#0D0D0D" stroke-width="2.2" />
+              <line x1="276" y1="276" x2="276" y2="293" stroke="#0D0D0D" stroke-width="2" />
+
+              <path
+                d="M 292 296 L 293 272 C 293 268, 309 268, 309 272 L 309 296 Z"
+                fill="#FFFFFF"
+                stroke="#0D0D0D"
+                stroke-width="2.8"
+              />
+              <path
+                d="M 296 269 L 296 262 C 296 259, 306 259, 306 262 L 306 269 Z"
+                fill="#FFFFFF"
+                stroke="#0D0D0D"
+                stroke-width="2.6"
+              />
+              <line x1="293" y1="281" x2="309" y2="281" stroke="#0D0D0D" stroke-width="2.4" />
+              <line x1="304" y1="272" x2="304" y2="294" stroke="#0D0D0D" stroke-width="2.2" />
+            </g>
+
+            <path d="M 254 296 L 326 296 L 326 310 L 254 310 Z" fill="#FFFFFF" stroke="#0D0D0D" stroke-width="2.8" />
+          </g>
+
+          <g id="chiqui-cabeza">
+            <path
+              d="M 226 164 C 236 169, 241 177, 237 183 C 233 188, 224 186, 221 179 Z"
+              fill="#0D0D0D"
+              stroke="#0D0D0D"
+              stroke-width="2"
+            />
+
+            <path
+              d="M 218 104 C 228 97, 234 114, 232 138 C 231 156, 226 169, 221 167 Z"
+              fill="#F8A3B2"
+              stroke="#0D0D0D"
+              stroke-width="3"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M 222 114 C 227 109, 229 122, 226 135 M 224 126 C 222 134, 222 144, 224 152"
+              fill="none"
+              stroke="#0D0D0D"
+              stroke-width="2.2"
+              stroke-linecap="round"
+            />
+
+            <path
+              d="M 74 44 C 102 6, 174 4, 206 34 C 224 52, 230 82, 231 106 C 225 100, 219 102, 217 110 C 213 78, 204 46, 184 30 C 154 12, 106 16, 74 44 Z"
+              fill="#0D0D0D"
+            />
+
+            <path
+              d="M 78 36 C 106 12, 166 12, 192 36 C 209 52, 214 84, 217 118 C 221 146, 224 176, 222 204 C 219 236, 196 264, 164 268 C 132 272, 108 256, 92 232 C 74 204, 68 172, 65 138 C 61 98, 56 62, 78 36 Z"
+              fill="#F8A3B2"
+              stroke="#0D0D0D"
+              stroke-width="3.4"
+              stroke-linejoin="round"
+            />
+
+            <path
+              d="M 65 112 C 62 128, 63 148, 67 166 L 70 162 C 68 144, 67 128, 68 112 Z"
+              fill="#0D0D0D"
+            />
+            <path
+              d="M 214 114 C 218 128, 221 146, 222 164 L 217 164 C 216 146, 213 130, 211 116 Z"
+              fill="#0D0D0D"
+            />
+
+            <g stroke="#0D0D0D" stroke-width="1.5" stroke-linecap="round">
+              <path d="M 96 25 Q 104 16 115 14" fill="none" />
+              <path d="M 103 27 Q 112 16 125 13" fill="none" />
+              <path d="M 111 28 Q 121 17 134 13" fill="none" />
+              <path d="M 121 26 Q 131 17 143 13" fill="none" />
+              <path d="M 131 24 Q 141 16 153 14" fill="none" />
+              <path d="M 183 32 Q 194 34 202 40" fill="none" />
+              <path d="M 191 40 Q 202 43 207 49" fill="none" />
+            </g>
+
+            <g stroke="#0D0D0D" stroke-width="1.3" stroke-linecap="round">
+              <line x1="186" y1="74" x2="195" y2="76" />
+              <line x1="184" y1="80" x2="196" y2="82" />
+              <line x1="183" y1="86" x2="196" y2="89" />
+              <line x1="182" y1="92" x2="195" y2="95" />
+              <line x1="182" y1="98" x2="194" y2="101" />
+              <path d="M 190 225 Q 184 246 172 257" fill="none" stroke-width="2.1" />
+              <path d="M 216 196 Q 214 224 201 243" fill="none" stroke-width="1.5" />
+              <path d="M 212 204 Q 208 228 194 247" fill="none" stroke-width="1.5" />
+              <line x1="182" y1="248" x2="196" y2="236" />
+              <line x1="178" y1="254" x2="193" y2="242" />
+              <line x1="173" y1="259" x2="189" y2="248" />
+            </g>
+
+            <g id="chiqui-cejas">
+              <path
+                d="M 73 122 C 74 113, 94 112, 113 118 C 115 120, 114 123, 111 123 C 96 120, 82 121, 74 127 Z"
+                fill="#0D0D0D"
+              />
+              <g stroke="#0D0D0D" stroke-width="1.4" stroke-linecap="round">
+                <line x1="75" y1="130" x2="78" y2="122" />
+                <line x1="81" y1="127" x2="84" y2="118" />
+                <line x1="108" y1="124" x2="112" y2="116" />
+              </g>
+
+              <path
+                d="M 139 114 C 152 103, 173 95, 188 106 C 191 108, 190 111, 187 110 C 173 103, 155 109, 141 119 Z"
+                fill="#0D0D0D"
+              />
+              <g stroke="#0D0D0D" stroke-width="1.3" stroke-linecap="round">
+                <line x1="138" y1="119" x2="140" y2="111" />
+                <line x1="145" y1="116" x2="148" y2="106" />
+                <line x1="178" y1="110" x2="184" y2="103" />
+                <line x1="185" y1="113" x2="192" y2="107" />
+              </g>
+            </g>
+
+            <g id="chiqui-ojos">
+              <path d="M 83 132 Q 98 122 112 130" fill="none" stroke="#0D0D0D" stroke-width="1.8" stroke-linecap="round" />
+              <path
+                d="M 85 137 C 92 128, 105 128, 111 136 C 105 140, 92 140, 85 137 Z"
+                fill="#FFFFFF"
+                stroke="#0D0D0D"
+                stroke-width="2.2"
+              />
+              <circle cx="98" cy="134" r="4.8" fill="#0D0D0D" />
+              <circle cx="96.5" cy="132.5" r="1.5" fill="#FFFFFF" />
+              <path d="M 86 149 Q 99 147 109 142" fill="none" stroke="#0D0D0D" stroke-width="1.6" stroke-linecap="round" />
+              <path d="M 80 139 L 73 142" fill="none" stroke="#0D0D0D" stroke-width="1.5" stroke-linecap="round" />
+
+              <path
+                d="M 146 124 C 155 115, 170 114, 179 120 C 171 124, 156 125, 146 124 Z"
+                fill="#FFFFFF"
+                stroke="#0D0D0D"
+                stroke-width="2.3"
+              />
+              <circle cx="161" cy="120" r="4.6" fill="#0D0D0D" />
+              <circle cx="159.5" cy="118.5" r="1.5" fill="#FFFFFF" />
+              <path d="M 146 131 Q 156 131 163 127" fill="none" stroke="#0D0D0D" stroke-width="1.5" stroke-linecap="round" />
+              <path d="M 167 131 Q 176 130 182 125" fill="none" stroke="#0D0D0D" stroke-width="1.5" stroke-linecap="round" />
+              <path d="M 183 128 L 194 130 M 182 132 L 191 136 M 187 118 L 194 114" fill="none" stroke="#0D0D0D" stroke-width="1.3" stroke-linecap="round" />
+            </g>
+
+            <g id="chiqui-nariz">
+              <path
+                d="M 116 131 C 118 144, 118 158, 113 169 C 110 175, 112 181, 120 183 C 126 184, 130 187, 136 185 C 142 183, 146 179, 152 178 C 157 177, 159 170, 155 166"
+                fill="none"
+                stroke="#0D0D0D"
+                stroke-width="2.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M 129 187 C 134 188, 141 186, 145 183 C 141 189, 135 192, 131 190 Z"
+                fill="#0D0D0D"
+              />
+              <g stroke="#0D0D0D" stroke-width="1.3" stroke-linecap="round">
+                <line x1="138" y1="136" x2="144" y2="140" />
+                <line x1="138" y1="142" x2="145" y2="146" />
+                <line x1="139" y1="148" x2="146" y2="152" />
+                <line x1="140" y1="154" x2="146" y2="158" />
+                <line x1="142" y1="160" x2="146" y2="164" />
+                <line x1="120" y1="170" x2="121" y2="177" />
+                <line x1="123" y1="172" x2="124" y2="178" />
+              </g>
+            </g>
+
+            <path d="M 109 177 Q 103 189 98 197" fill="none" stroke="#0D0D0D" stroke-width="2.3" stroke-linecap="round" />
+            <path d="M 106 196 Q 103 197 104 200" fill="none" stroke="#0D0D0D" stroke-width="2" stroke-linecap="round" />
+            <path d="M 159 172 Q 174 179 182 189" fill="none" stroke="#0D0D0D" stroke-width="2.4" stroke-linecap="round" />
+            <path d="M 171 180 Q 181 186 183 193" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" />
+            <g stroke="#0D0D0D" stroke-width="1.2" stroke-linecap="round">
+              <line x1="181" y1="181" x2="184" y2="175" />
+              <line x1="185" y1="183" x2="188" y2="176" />
+              <line x1="188" y1="185" x2="192" y2="177" />
+              <line x1="191" y1="187" x2="195" y2="179" />
+            </g>
+
+            <g id="chiqui-boca-reposo">
+              <path
+                d="M 111 200 C 131 205, 152 204, 173 194"
+                fill="none"
+                stroke="#0D0D0D"
+                stroke-width="3.2"
+                stroke-linecap="round"
+              />
+              <path d="M 170 192 Q 174 193 175 196" fill="none" stroke="#0D0D0D" stroke-width="2" stroke-linecap="round" />
+              <g stroke="#0D0D0D" stroke-width="1.4" stroke-linecap="round">
+                <path d="M 124 217 Q 132 227 143 229" fill="none" />
+                <path d="M 129 217 Q 136 224 144 226" fill="none" />
+                <path d="M 151 229 Q 162 223 168 212" fill="none" />
+                <path d="M 150 226 Q 158 221 163 213" fill="none" />
+              </g>
+            </g>
+
+            <g id="chiqui-boca-hablando" style="display: none;">
+              <path
+                id="chiqui-boca-abierta-path"
+                d="M 114 199 Q 142 195 171 195 Q 164 218 142 218 Q 120 218 114 199 Z"
+                fill="#7F1D1D"
+                stroke="#0D0D0D"
+                stroke-width="3"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M 127 213 Q 142 206 157 213 Q 142 218 127 213 Z"
+                fill="#FB7185"
+              />
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ==========================================================================
+       SCRIPT DEL WIDGET DR. CHIQUITO (SIEMPRE ACTIVO Y CON VOZ)
+       ========================================================================== -->
+  <script>
+    (function () {
+      "use strict";
+
+      const GUION_DOCTOR = {
+        bienvenida: {
+          titulo: "Laboratorio del Dr. Chiquito",
+          texto:
+            "¡Quietorrr, pecador de la pradera! Soy el Doctor Chiquito. Haz clic en cualquier enzima, botón o tarjeta de la página y te explico la bioquímica de la erección con más ciencia que un Nobel, ¡¿te das cuen?! ¡Jaaarrr!",
+          audioUrl: ""
+        },
+        basal: {
+          titulo: "Estado basal flácido",
+          texto:
+            "¡Quietorrr parado! Ahora mismo está todo en reposo simpático: sin óxido nítrico (NO•), la vía RhoA y la Rho-quinasa mantienen el cerrojo puesto y el amigo duerme la siesta. ¡Pulsa los epígrafes para darle marcha a la pradera!",
+          audioUrl: ""
+        },
+        cerebro: {
+          titulo: "Cerebro y médula (S2–S4)",
+          texto:
+            "¡Pero que estás haciendo con el cuerpo humano! Todo empieza en el hipotálamo, baja por la médula sacra (S2–S4) y dispara los nervios cavernosos. Sueltan acetilcolina y neurotransmisores NANC como un torpedo sexual. Sin señal nerviosa, ¡no puedorrr, no puedorrr!",
+          audioUrl: ""
+        },
+        nos: {
+          titulo: "Enzima NOS (nNOS y eNOS)",
+          texto:
+            "¡Ere un torpedo! Aquí trabaja la óxido nítrico sintasa: primero la nNOS neuronal pega el chispazo inicial y luego la eNOS endotelial mantiene el caudal convirtiendo L-arginina y oxígeno en óxido nítrico (NO•). ¡Un gas lipófilo que atraviesa membranas como un caballo desbocado!",
+          audioUrl: ""
+        },
+        gc: {
+          titulo: "Guanilato ciclasa (sGC)",
+          texto:
+            "¡Al ataquerr! El óxido nítrico se abraza al grupo hemo de la guanilato ciclasa soluble (sGC) y acelera 200 veces el paso de GTP a GMPc. El GMPc activa la quinasa PKG, baja el calcio, relaja el músculo liso cavernoso y... ¡hasta luego Lucas!",
+          audioUrl: ""
+        },
+        pde5: {
+          titulo: "Enzima PDE5 (detumescencia)",
+          texto:
+            "¡Uno que nació después de los dolores! Cuando toca recoger velas aparece la fosfodiesterasa tipo 5 (PDE5), que se zampa el GMPc, rompe su enlace y lo convierte en 5'-GMP inactivo. ¡Al caer el GMPc, el músculo liso se contrae y vuelta al blandiblú!",
+          audioUrl: ""
+        },
+        inhibidor_pde5: {
+          titulo: "Viagra (sildenafilo) — Inhibidor PDE5",
+          texto:
+            "¡Quitate las bragas torpeda! La Viagra (sildenafilo) bloquea el sitio activo de la PDE5 para que no pueda destruir el GMPc. ¡Pero ojo, pecador de la pradera: la Viagra solo funciona si hay óxido nítrico (NO•) previo! Sin deseo ni señal nerviosa que fabrique NO• y GMPc, la pastilla sola no hace nada, ¡¿te das cuen?!",
+          audioUrl: ""
+        },
+        rho: {
+          titulo: "Vía RhoA / Rho-quinasa",
+          texto:
+            "¡Aaaaahhhh! Cuando manda el tono simpático entra en acción la vía RhoA / Rho-quinasa (ROCK). Esta enzima inhibe a la fosfatasa de miosina (MLCP), sensibiliza al calcio y mantiene el músculo liso contraído como un cerrojo de siete llaves para conservar la flacidez basal.",
+          audioUrl: ""
+        },
+        diabetes: {
+          titulo: "Diabetes (ROS y neuropatía)",
+          texto:
+            "¡Qué pasa! La diabetes llena los vasos de radicales libres (ROS), agota el cofactor BH4, desacopla la eNOS y daña los axones nNOS. ¡Un sabotaje bioquímico completo contra la erección!",
+          audioUrl: ""
+        },
+        cardio: {
+          titulo: "Problemas cardiovasculares",
+          texto:
+            "¡Federicorr, por la gloria de mi madre! Como las arterias cavernosas miden solo 1 a 2 milímetros frente a los 3 a 4 milímetros de las coronarias, la placa de ateroma bloquea antes el caudal del pene y reduce la activación de eNOS mucho antes de dar angina.",
+          audioUrl: ""
+        },
+        fumar: {
+          titulo: "Fumar (daño a las vías sanguíneas)",
+          texto:
+            "¡Fistro diodenar! Los oxidantes del tabaco agotan el cofactor BH4 y desacoplan la eNOS en las vías sanguíneas para que fabrique radicales en vez de NO•, mientras la nicotina dispara la descarga simpática de Rho-quinasa.",
+          audioUrl: ""
+        },
+        conclusion: {
+          titulo: "Conclusión clave",
+          texto:
+            "¡Escucha bien este diagnóstico! Como las arterias cavernosas miden solo 1 a 2 milímetros, la disfunción eréctil es una señal de alarma que avisa de 2 a 5 años antes que las coronarias y nos ayuda a detectar problemas de salud a tiempo. ¡Hasta luego Lucas!",
+          audioUrl: ""
+        }
+      };
+
+      const rootEl = document.getElementById("dr-chiquito-root");
+      const titleEl = document.getElementById("chiquito-topic-title");
+      const textEl = document.getElementById("chiquito-speech-text");
+      const avatarSlotEl = document.getElementById("chiquito-avatar-slot");
+
+      if (!rootEl || !textEl) return;
+
+      const VozChiquito = {
+        ctx: null,
+        activeHtmlAudio: null,
+        babbleTimer: null,
+
+        unlock() {
+          if (!this.ctx) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (AudioCtx) this.ctx = new AudioCtx();
+          }
+          if (this.ctx && this.ctx.state === "suspended") {
+            this.ctx.resume().catch(() => {});
+          }
+        },
+
+        stop() {
+          if (this.babbleTimer) {
+            clearInterval(this.babbleTimer);
+            this.babbleTimer = null;
+          }
+          if (this.activeHtmlAudio) {
+            try {
+              this.activeHtmlAudio.pause();
+              this.activeHtmlAudio.currentTime = 0;
+            } catch (e) {}
+            this.activeHtmlAudio = null;
+          }
+        },
+
+        playForEntry(entry, onAudioEnd) {
+          this.stop();
+
+          const customUrl = entry && entry.audioUrl ? entry.audioUrl.trim() : "";
+          if (customUrl) {
+            try {
+              const audio = new Audio(customUrl);
+              this.activeHtmlAudio = audio;
+              audio.addEventListener("ended", () => {
+                if (typeof onAudioEnd === "function") onAudioEnd();
+              });
+              audio.addEventListener("error", () => {
+                this.startComicBabble();
+              });
+              audio.play().catch(() => {
+                this.startComicBabble();
+              });
+              return true;
+            } catch (e) {
+              this.startComicBabble();
+              return false;
+            }
+          }
+
+          this.startComicBabble();
+          return false;
+        },
+
+        startComicBabble() {
+          try {
+            this.unlock();
+            if (!this.ctx) return;
+
+            const pitches = [210, 265, 315, 240, 340, 285, 195, 325];
+            let step = 0;
+
+            const playSyllable = () => {
+              if (!this.ctx) return;
+              const now = this.ctx.currentTime;
+              const osc = this.ctx.createOscillator();
+              const gain = this.ctx.createGain();
+
+              const baseFreq = pitches[step % pitches.length] + (Math.random() * 28 - 14);
+              step++;
+
+              osc.type = step % 3 === 0 ? "sawtooth" : "triangle";
+              osc.frequency.setValueAtTime(baseFreq, now);
+              osc.frequency.exponentialRampToValueAtTime(baseFreq * 1.18, now + 0.045);
+              osc.frequency.exponentialRampToValueAtTime(baseFreq * 0.88, now + 0.09);
+
+              gain.gain.setValueAtTime(0.001, now);
+              gain.gain.linearRampToValueAtTime(0.075, now + 0.015);
+              gain.gain.exponentialRampToValueAtTime(0.001, now + 0.095);
+
+              osc.connect(gain);
+              gain.connect(this.ctx.destination);
+              osc.start(now);
+              osc.stop(now + 0.1);
+            };
+
+            playSyllable();
+            this.babbleTimer = setInterval(playSyllable, 115);
+          } catch (err) {}
+        }
+      };
+
+      let currentKey = "bienvenida";
+      let typingTimer = null;
+      let mouthTimer = null;
+      let isAudioDriven = false;
+
+      const OPEN_MOUTH_SHAPES = [
+        "M 114 199 Q 142 195 171 195 Q 164 218 142 218 Q 120 218 114 199 Z",
+        "M 124 198 C 124 193, 160 193, 160 198 C 160 215, 124 215, 124 198 Z",
+        "M 112 200 Q 142 198 172 196 Q 166 211 142 211 Q 118 211 112 200 Z"
+      ];
+
+      function setTalkingVisuals(active) {
+        rootEl.classList.toggle("is-talking", active);
+        clearInterval(mouthTimer);
+
+        const mouthRest = document.getElementById("chiqui-boca-reposo");
+        const mouthTalk = document.getElementById("chiqui-boca-hablando");
+        const mouthPath = document.getElementById("chiqui-boca-abierta-path");
+
+        if (active) {
+          let idx = 0;
+          if (mouthRest && mouthTalk) {
+            mouthRest.style.display = "none";
+            mouthTalk.style.display = "inline";
+          }
+          mouthTimer = setInterval(() => {
+            if (!mouthRest || !mouthTalk) return;
+            if (idx % 4 === 3) {
+              mouthTalk.style.display = "none";
+              mouthRest.style.display = "inline";
+            } else {
+              mouthRest.style.display = "none";
+              mouthTalk.style.display = "inline";
+              if (mouthPath) {
+                mouthPath.setAttribute("d", OPEN_MOUTH_SHAPES[idx % OPEN_MOUTH_SHAPES.length]);
+              }
+            }
+            idx++;
+          }, 115);
+        } else {
+          if (mouthTalk) mouthTalk.style.display = "none";
+          if (mouthRest) mouthRest.style.display = "inline";
+        }
+      }
+
+      function formatBioTerms(rawText) {
+        const escaped = rawText
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+        return escaped.replace(
+          /\b(nNOS|eNOS|NOS|sGC|GMPc|5'-GMP|GTP|PKG|PDE5|RhoA|ROCK|MLCP|NO•|NO|BH4|ROS|NANC|S2–S4)\b/g,
+          "<strong>$1</strong>"
+        );
+      }
+
+      function hablar(clave, customOverride) {
+        const entry = customOverride || GUION_DOCTOR[clave] || GUION_DOCTOR.bienvenida;
+        if (GUION_DOCTOR[clave]) {
+          currentKey = clave;
+        }
+
+        clearInterval(typingTimer);
+        VozChiquito.stop();
+
+        titleEl.textContent = entry.titulo || "Laboratorio del Dr. Chiquito";
+
+        const fullText = entry.texto || "";
+        let charIndex = 0;
+        textEl.textContent = "";
+
+        setTalkingVisuals(true);
+
+        isAudioDriven = VozChiquito.playForEntry(entry, () => {
+          isAudioDriven = false;
+          if (charIndex >= fullText.length) {
+            setTalkingVisuals(false);
+          }
+        });
+
+        typingTimer = setInterval(() => {
+          charIndex += 2;
+          if (charIndex >= fullText.length) {
+            clearInterval(typingTimer);
+            textEl.innerHTML = formatBioTerms(fullText);
+            textEl.scrollTop = textEl.scrollHeight;
+
+            if (!isAudioDriven) {
+              VozChiquito.stop();
+              setTalkingVisuals(false);
+            }
+          } else {
+            textEl.textContent = fullText.slice(0, charIndex);
+            textEl.scrollTop = textEl.scrollHeight;
+          }
+        }, 24);
+      }
+
+      document.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target.closest("[data-chiquito]") : null;
+        if (!target) return;
+
+        const key = target.getAttribute("data-chiquito");
+        const inlineText = target.getAttribute("data-chiquito-texto");
+        const inlineTitle = target.getAttribute("data-chiquito-titulo");
+
+        if (inlineText) {
+          hablar(key || "custom", {
+            titulo: inlineTitle || "Laboratorio del Dr. Chiquito",
+            texto: inlineText,
+            audioUrl: ""
+          });
+        } else if (key) {
+          hablar(key);
+        }
+      });
+
+      window.addEventListener("message", (event) => {
+        const data = event.data;
+        if (!data || typeof data !== "object") return;
+
+        const msgType = data.tipo || data.type;
+        if (msgType === "CHIQUITO_HABLA") {
+          if (typeof data.texto === "string" && data.texto.trim()) {
+            hablar(data.clave || "custom", {
+              titulo: typeof data.titulo === "string" ? data.titulo : "Laboratorio del Dr. Chiquito",
+              texto: data.texto,
+              audioUrl: typeof data.audioUrl === "string" ? data.audioUrl : ""
+            });
+          } else if (typeof data.clave === "string") {
+            hablar(data.clave);
+          }
+        }
+      });
+
+      avatarSlotEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+        hablar(currentKey);
+      });
+
+      const apiPublica = {
+        hablar: hablar,
+        guion: GUION_DOCTOR
+      };
+      window.ChiquitoDoc = apiPublica;
+      window.DrChiquito = apiPublica;
+
+      const welcome = GUION_DOCTOR.bienvenida;
+      titleEl.textContent = welcome.titulo;
+      textEl.innerHTML = formatBioTerms(welcome.texto);
+    })();
+  </script>
+</body>
+</html>
